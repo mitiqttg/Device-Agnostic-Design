@@ -1,4 +1,4 @@
-package com.example.animated_responsive_layout
+package com.example.my_first_flutter
 
 import io.flutter.embedding.android.FlutterActivity
 

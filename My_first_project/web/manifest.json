@@ -1,6 +1,6 @@
 {
-    "name": "animated_responsive_layout",
-    "short_name": "animated_responsive_layout",
+    "name": "my_first_flutter",
+    "short_name": "my_first_flutter",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

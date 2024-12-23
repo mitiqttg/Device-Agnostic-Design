@@ -1,4 +1,4 @@
-name: animated_responsive_layout
+name: my_first_flutter
 description: A new Flutter project.
 publish_to: 'none'
 version: 0.1.0
@@ -11,6 +11,11 @@ dependencies:
     sdk: flutter
   flutter_svg: ^2.0.16
   footer: ^0.0.4 
+  get: ^4.6.6
+  cupertino_icons: ^1.0.8
+  provider: ^6.1.2
+  webview_flutter: ^4.10.0
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:
@@ -20,9 +25,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # assets:
-  #   - assets/avatar_1.png
-  #   - assets/avatar_2.png
+  assets:
+    - assets/dog1.png
+
   #   - assets/avatar_3.png
   #   - assets/avatar_4.png
   #   - assets/avatar_5.png

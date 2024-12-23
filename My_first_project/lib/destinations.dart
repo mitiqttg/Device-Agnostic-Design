@@ -8,7 +8,7 @@ class Destination {
 
 const List<Destination> destinations = <Destination>[
   Destination(Icons.person, 'Account'),
-  Destination(Icons.pets, 'Adopt'),
+  Destination(Icons.pets, 'Rescue'),
   Destination(Icons.home, 'Home'),
   Destination(Icons.library_books_outlined, 'Our story'),
 ];
