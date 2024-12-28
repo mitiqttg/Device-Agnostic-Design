@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../pages/home.dart';
 
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({Key? key}) : super(key: key);
@@ -29,7 +30,7 @@ class NavigationDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.account_circle),
             title: const Text('Your account'),
-            onTap: () {},
+            onTap: () {Get.toNamed('/account');},
           ),
           ListTile(
             leading: const Icon(Icons.pets),

@@ -1,6 +1,5 @@
 // import 'package:flutter/material.dart';
 import '../widgets/petcard.dart';
-
 // class Rescue extends StatefulWidget {
 //   // const Rescue({Key? key}) : super(key: key);
 //   const Rescue({super.key});
@@ -31,20 +30,19 @@ import '../theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 
-class Rescue extends StatefulWidget {
-  const Rescue({super.key});
+class RescuePage extends StatefulWidget {
+  const RescuePage({super.key});
 
   @override
-  State<Rescue> createState() => _RescueState();
+  State<RescuePage> createState() => _RescueState();
 }
 
-class _RescueState extends State<Rescue> {
+class _RescueState extends State<RescuePage> {
   bool isSwitched = true;
 
   //------------------------------------------------------------Search box
   Container _searchField() {
     double appBarHeight = AppBar().preferredSize.height;
-    // double appBarWidth = AppBar().preferredSize.width;
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -125,9 +123,34 @@ class _RescueState extends State<Rescue> {
     //------------------------------------------------------------Body of Home
     Column bodyView() {
       return const Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          PetCard(),
-          
+          PetCard(
+            name: 'Tom',
+            image: 'lib/assets/cat0.png',
+            shortDes: 'Cute and gracious',
+            specie: 'lib/assets/Icon_cat.png',
+            video: '',
+            longDes: '',
+          ),
+          SizedBox(height: 8),
+          PetCard(
+            name: 'Timmy',
+            image: 'lib/assets/dog1.png',
+            shortDes: 'Cute and grumpy',
+            specie: 'lib/assets/Icon_dog.png',
+            video: '',
+            longDes: '',
+          ),
+          SizedBox(height: 8),
+          PetCard(
+            name: 'Hope',
+            image: '../../lib/assets/dog0.png',
+            shortDes: 'Dangerous and gracious',
+            specie: 'lib/assets/Icon_dog.png',
+            video: '',
+            longDes: '',
+          ),
           // -------------------Footer section
           prefix.Footer(),
         ],
@@ -140,7 +163,9 @@ class _RescueState extends State<Rescue> {
         backgroundColor: Theme.of(context).colorScheme.surface, 
         appBar: appBar(),
         drawer: const prefix.NavigationDrawer(),
-        body: bodyView(),
+        body: SingleChildScrollView(
+          child: bodyView(),
+        )
       ),
     );
   }

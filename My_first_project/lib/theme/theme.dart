@@ -9,9 +9,9 @@ final lightMode = ThemeData(
     dynamicSchemeVariant: DynamicSchemeVariant.fidelity,
   ).copyWith(
     primaryContainer: const Color.fromARGB(255, 227, 231, 247),
-    onPrimaryContainer: const Color.fromARGB(255, 145, 152, 157),
+    onPrimaryContainer: const Color.fromARGB(255, 0, 2, 3),
     secondaryContainer: const Color.fromARGB(255, 144, 222, 214),
-    onSecondaryContainer: const Color.fromARGB(255, 219, 211, 237),
+    onSecondaryContainer: const Color.fromARGB(255, 151, 186, 232),
     error: const Color(0xffcf6679),
     onError: Colors.black,
   ),

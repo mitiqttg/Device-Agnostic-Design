@@ -82,7 +82,7 @@ class Footer extends StatelessWidget {
                         ]
                       ),),
                       const Text('Copyright ©2024, All Rights Reserved.',style: TextStyle(fontWeight:FontWeight.w300, fontSize: 12.0, color: Color.fromARGB(255, 255, 0, 153)),),
-                      const Text('Made by Tien Tran',style: TextStyle(fontWeight:FontWeight.w300, fontSize: 12.0,color: Color.fromARGB(255, 255, 0, 153)),),
+                      const Text('Made with ❤ ️by Tien Tran',style: TextStyle(fontWeight:FontWeight.w300, fontSize: 12.0,color: Color.fromARGB(255, 255, 0, 153)),),
                     ]
                   ),    
                 )

@@ -67,7 +67,6 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
   //------------------------------------------------------------App bar
   @override
   Widget build(BuildContext context) {
@@ -76,18 +75,22 @@ class _HomePageState extends State<HomePage> {
         title: const Text(
           'Petlastaa',
           style: TextStyle(
-            color:  Color.fromARGB(255, 255, 0, 153),
+            color:  Color.fromARGB(255, 231, 86, 173),
             fontSize: 20,
             fontWeight: FontWeight.bold
           ),
         ),
-        backgroundColor:const Color.fromARGB(255, 255, 255, 255),
+        backgroundColor:const Color.fromARGB(255, 112, 215, 231),
         elevation: 10.0,
         centerTitle: true,
         actions: [
           _searchField(),
           Switch(
-            activeColor: const Color.fromARGB(255, 156, 232, 240),
+            thumbIcon: MaterialStateProperty.all(
+          isSwitched ? const Icon(Icons.nightlight_round) : const Icon(Icons.wb_sunny),
+        ),
+            focusColor: const Color.fromARGB(255, 167, 167, 160),
+            activeColor: const Color.fromARGB(255, 255, 255, 255),
             value: isSwitched,
             onChanged: (value) {
               setState(() {
@@ -96,7 +99,6 @@ class _HomePageState extends State<HomePage> {
               });  
             },
           ),
-          const BackButton(),
         ],
       );
     }
