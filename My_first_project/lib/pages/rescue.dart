@@ -1,29 +1,5 @@
-// import 'package:flutter/material.dart';
 import '../widgets/petcard.dart';
-// class Rescue extends StatefulWidget {
-//   // const Rescue({Key? key}) : super(key: key);
-//   const Rescue({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Rescue'),
-//       ),
-//       body: ListView(
-//         children: const <Widget>[
-//           PetCard(),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-//-----------------------------------------------
-
-
 import 'package:flutter/material.dart';
-import 'package:footer/footer.dart';
 import '../widgets/drawer.dart' as prefix;
 import '../widgets/footer.dart' as prefix;
 import '../theme/theme_provider.dart';
@@ -40,7 +16,7 @@ class RescuePage extends StatefulWidget {
 class _RescueState extends State<RescuePage> {
   bool isSwitched = true;
 
-  //------------------------------------------------------------Search box
+  //-----------------------------------Search box---------------------------------
   Container _searchField() {
     double appBarHeight = AppBar().preferredSize.height;
 
@@ -92,21 +68,25 @@ class _RescueState extends State<RescuePage> {
   Widget build(BuildContext context) {
     AppBar appBar() {
       return AppBar(
-        title: const Text(
+        title: Text(
           'Petlastaa',
           style: TextStyle(
-            color:  Color.fromARGB(255, 255, 0, 153),
+            color: isSwitched ? const Color.fromARGB(255, 255, 0, 153) : const Color.fromARGB(255, 241, 119, 212),
             fontSize: 20,
             fontWeight: FontWeight.bold
           ),
         ),
-        backgroundColor:const Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: isSwitched ? const Color.fromARGB(222, 205, 226, 248) : const Color.fromARGB(255, 98, 208, 228),
         elevation: 10.0,
         centerTitle: true,
         actions: [
           _searchField(),
           Switch(
-            activeColor: const Color.fromARGB(255, 6, 208, 230),
+            thumbIcon: WidgetStateProperty.all(
+              isSwitched ? const Icon(Icons. wb_sunny) : const Icon(Icons.  nightlight_round),
+            ),
+            focusColor: const Color.fromARGB(255, 175, 214, 238),
+            activeColor: const Color.fromARGB(255, 68, 172, 241),
             value: isSwitched,
             onChanged: (value) {
               setState(() {
@@ -122,34 +102,40 @@ class _RescueState extends State<RescuePage> {
     
     //------------------------------------------------------------Body of Home
     Column bodyView() {
-      return const Column(
+      return Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           PetCard(
-            name: 'Tom',
-            image: 'lib/assets/cat0.png',
+            name: 'Gracie',
+            images: ['lib/assets/cat0.png'],
             shortDes: 'Cute and gracious',
             specie: 'lib/assets/Icon_cat.png',
-            video: '',
-            longDes: '',
+            videos: ['https://youtube.com/watch?v=iq8Mllwz5no'],
+            longDes: 'love you so much',
+            favorites: 'tell you so much',
+            darkMode: isSwitched,
           ),
           SizedBox(height: 8),
           PetCard(
-            name: 'Timmy',
-            image: 'lib/assets/dog1.png',
-            shortDes: 'Cute and grumpy',
+            name: 'Thomas',
+            images: ['lib/assets/dog1.png', 'lib/assets/dog3.png', 'lib/assets/dog3.png'],
+            shortDes: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus luctus urna sed urna.",
             specie: 'lib/assets/Icon_dog.png',
-            video: '',
-            longDes: '',
+            videos: ['https://youtube.com/watch?v=iq8Mllwz5no'],
+            longDes: 'i love you so much ',
+            darkMode: isSwitched,
           ),
           SizedBox(height: 8),
           PetCard(
             name: 'Hope',
-            image: '../../lib/assets/dog0.png',
+            images: ['../../lib/assets/dog4.png', 'lib/assets/dog1.png',],
             shortDes: 'Dangerous and gracious',
             specie: 'lib/assets/Icon_dog.png',
-            video: '',
-            longDes: '',
+            videos: ['https://youtube.com/watch?v=iq8Mllwz5no', 'https://youtube.com/watch?v=iq8Mllwz5no'],
+            longDes: 'i love you so much i hope you well and all the best from the bottom of my heart',
+            birth: '2021-09-01',
+            favorites: 'cookies and peekaboo',
+            darkMode: isSwitched,
           ),
           // -------------------Footer section
           prefix.Footer(),
@@ -162,7 +148,7 @@ class _RescueState extends State<RescuePage> {
       home: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface, 
         appBar: appBar(),
-        drawer: const prefix.NavigationDrawer(),
+        drawer: const prefix.NavigationDrawer(location: 'Rescue page',),
         body: SingleChildScrollView(
           child: bodyView(),
         )

@@ -1,21 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../pages/home.dart';
+import '../pages/rescue.dart';
+import '../pages/donation.dart';
 
-class NavigationDrawer extends StatelessWidget {
-  const NavigationDrawer({Key? key}) : super(key: key);
+class NavigationDrawer extends StatefulWidget {
+  final String location;
+  const NavigationDrawer({
+    Key? key,
+    required this.location,
+  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Drawer(
+  State<NavigationDrawer> createState() => _NavigationDrawerState();
+}
+
+class _NavigationDrawerState extends State<NavigationDrawer> {
+  @override
+  void initState() {
+    super.initState();}
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
     child: ListView(
       padding: EdgeInsets.zero,
       children: <Widget> [
           // buildHeader(context),
-          const DrawerHeader(
-            decoration: BoxDecoration(
-              color: Color.fromARGB(255, 255, 255, 255),
+          DrawerHeader(
+            decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 205, 243, 253),
             ),
-            child: Center(child: Text('Home'),),
+            child: Center(child: Text(widget.location),),
           ),
           ListTile(
             leading: const Icon(Icons.home_outlined),
@@ -28,16 +43,26 @@ class NavigationDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.account_circle),
-            title: const Text('Your account'),
-            onTap: () {Get.toNamed('/account');},
+            leading: const Icon(Icons.handshake),
+            title: const Text('Donation'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const DonationPage()),
+              );
+            },
           ),
           ListTile(
             leading: const Icon(Icons.pets),
             title: const Text('Rescue'),
-            onTap: () {Get.toNamed('/rescue');},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const RescuePage()),
+              );
+            },
           ),
       ],
     ),
-  );
+  );}
 }

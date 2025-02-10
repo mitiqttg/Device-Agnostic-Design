@@ -4,6 +4,13 @@ import '../widgets/footer.dart';
 import '../theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
+class Breakpoints {
+  static const sm = 640;
+  static const md = 768;
+  static const lg = 1024;
+  static const xl = 1280;
+  static const xl2 = 1536;
+}
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -72,25 +79,25 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     AppBar appBar() {
       return AppBar(
-        title: const Text(
+        title: Text(
           'Petlastaa',
           style: TextStyle(
-            color:  Color.fromARGB(255, 231, 86, 173),
+            color: isSwitched ? const Color.fromARGB(255, 255, 0, 153) : Color.fromARGB(255, 241, 119, 212),
             fontSize: 20,
             fontWeight: FontWeight.bold
           ),
         ),
-        backgroundColor:const Color.fromARGB(255, 112, 215, 231),
+        backgroundColor: isSwitched ? const Color.fromARGB(255, 157, 213, 231) : const Color.fromARGB(255, 98, 208, 228),
         elevation: 10.0,
         centerTitle: true,
         actions: [
           _searchField(),
           Switch(
-            thumbIcon: MaterialStateProperty.all(
-          isSwitched ? const Icon(Icons.nightlight_round) : const Icon(Icons.wb_sunny),
-        ),
-            focusColor: const Color.fromARGB(255, 167, 167, 160),
-            activeColor: const Color.fromARGB(255, 255, 255, 255),
+            thumbIcon: WidgetStateProperty.all(
+              isSwitched ? const Icon(Icons. wb_sunny) : const Icon(Icons.  nightlight_round),
+            ),
+            focusColor: const Color.fromARGB(255, 175, 214, 238),
+            activeColor: const Color.fromARGB(255, 68, 172, 241),
             value: isSwitched,
             onChanged: (value) {
               setState(() {
@@ -99,6 +106,7 @@ class _HomePageState extends State<HomePage> {
               });  
             },
           ),
+          const BackButton(),
         ],
       );
     }
@@ -108,9 +116,10 @@ class _HomePageState extends State<HomePage> {
       return Column(
         children: [
           // Main content
-          Expanded(
-            child: Container(
-              color: const Color.fromARGB(255, 151, 164, 220),
+          // Expanded(
+          //   child: 
+          Container(
+              color: const Color.fromARGB(255, 210, 216, 243),
               child: const Column(
                 children: [
                   Row(
@@ -121,7 +130,7 @@ class _HomePageState extends State<HomePage> {
                 ]
               ),
             ),
-          ),
+          // ),
           
           // Footer section
           const Footer(),
@@ -134,7 +143,7 @@ class _HomePageState extends State<HomePage> {
       home: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface, 
         appBar: appBar(),
-        drawer: const prefix.NavigationDrawer(),
+        drawer: const prefix.NavigationDrawer(location: 'Home'),
         body: bodyView(),
       ),
     );

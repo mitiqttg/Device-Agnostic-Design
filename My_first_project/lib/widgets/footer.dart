@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Footer extends StatelessWidget {
   const Footer({Key? key}) : super(key: key);
@@ -10,7 +11,7 @@ class Footer extends StatelessWidget {
       child: Container(
             // color: Theme.of(context).colorScheme.primary,
             decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 255, 255, 255),
+              color: Color.fromARGB(255, 43, 41, 41),
             ),
             // color: Theme.of(context).scaffoldBackgroundColor,
             padding: const EdgeInsets.all(10),
@@ -38,8 +39,8 @@ class Footer extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(25.0),
                                 ),
                                 child: IconButton(
-                                  icon: const Icon(Icons.audiotrack,size: 20.0,),
-                                  color: const Color.fromARGB(255, 255, 0, 153),
+                                  icon: const Icon(FontAwesomeIcons.instagram,size: 20.0,),
+                                  color: const Color.fromARGB(255, 252, 142, 208),
                                   onPressed: () {},
                                 ),
                               ),
@@ -55,8 +56,8 @@ class Footer extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(25.0),
                                 ),
                                 child: IconButton(
-                                  icon: const Icon(Icons.fingerprint,size: 20.0,),
-                                  color: const Color.fromARGB(255, 255, 0, 153),
+                                  icon: const Icon(FontAwesomeIcons.facebook,size: 20.0,),
+                                  color: const Color.fromARGB(255, 252, 142, 208),
                                   onPressed: () {},
                                 ),
                               ),
@@ -72,8 +73,25 @@ class Footer extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(25.0), // half of height and width of Image
                                 ),
                                 child: IconButton(
-                                  icon: const Icon(Icons.call,size: 20.0,),
-                                  color: const Color.fromARGB(255, 255, 0, 153),
+                                  icon: const Icon(FontAwesomeIcons.pinterest,size: 20.0,),
+                                  color: const Color.fromARGB(255, 252, 142, 208),
+                                  onPressed: () {},
+                                ),
+                              ),
+                            )
+                          ),
+                          SizedBox(
+                            height: 45.0,
+                            width: 45.0,
+                            child: Center(
+                              child:Card(
+                                elevation: 5.0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25.0), // half of height and width of Image
+                                ),
+                                child: IconButton(
+                                  icon: const Icon(FontAwesomeIcons.paypal,size: 20.0,),
+                                  color: const Color.fromARGB(255, 252, 142, 208),
                                   onPressed: () {},
                                 ),
                               ),
@@ -81,8 +99,8 @@ class Footer extends StatelessWidget {
                           ),
                         ]
                       ),),
-                      const Text('Copyright ©2024, All Rights Reserved.',style: TextStyle(fontWeight:FontWeight.w300, fontSize: 12.0, color: Color.fromARGB(255, 255, 0, 153)),),
-                      const Text('Made with ❤ ️by Tien Tran',style: TextStyle(fontWeight:FontWeight.w300, fontSize: 12.0,color: Color.fromARGB(255, 255, 0, 153)),),
+                      const Text('Copyright ©2024, All Rights Reserved.',style: TextStyle(fontWeight:FontWeight.w300, fontSize: 12.0, color:  Color.fromARGB(255, 252, 142, 208)),),
+                      const Text('Made with ❤ ️by Tien Tran',style: TextStyle(fontWeight:FontWeight.w300, fontSize: 12.0,color:  Color.fromARGB(255, 252, 142, 208)),),
                     ]
                   ),    
                 )
