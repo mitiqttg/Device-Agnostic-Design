@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 // import 'package:flick_video_player/flick_video_player.dart';
 // import 'package:video_player/video_player.dart';
 import 'videoPlayer.dart';
 // import 'package:flutter_carousel_media_slider/flutter_carousel_media_slider.dart';
 import '../pages/adoptform.dart' as adopt;
+import '../widgets/imageCarousel.dart';
 
 class PetCard extends StatefulWidget {
   final String name;
@@ -50,7 +50,7 @@ class _PetCard extends State<PetCard> {
   void initState() {
     super.initState();
     imagePages = List.generate(widget.images.length, (index) => Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: widget.darkMode ? Colors.blue : Colors.red),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: SizedBox(
         height: 20,
@@ -67,7 +67,7 @@ class _PetCard extends State<PetCard> {
     ));
 
     videoPages = List.generate(widget.videos.length, (index) => Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: widget.darkMode ? Colors.blue : Colors.red),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),),
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: SizedBox(
         height: 20,
@@ -112,40 +112,14 @@ class _PetCard extends State<PetCard> {
               children: [
                 Row(
                   children: <Widget>[
-                        Column(
-                          children: [
-                            SizedBox(
-                              height: height / 4,
-                              width: width / 5,
-                              child: 
-                                  PageView.builder(
-                                    controller: imagecontroller,
-                                    itemCount: widget.images.length,
-                                    itemBuilder: (_, index) {
-                                      return imagePages[index];
-                                    }),
-                            ),
-                            widget.images.length > 1 ? SmoothPageIndicator(
-                              controller: imagecontroller, 
-                              count: imagePages.length,
-                              effect: const JumpingDotEffect(
-                                spacing:  4.0,    
-                                // radius:  2.0,       
-                                dotHeight: 4,
-                                dotWidth: 4,
-                                verticalOffset: 6,
-                                activeDotColor:  Color.fromARGB(255, 144, 158, 237),
-                              ),
-                            ) : const SizedBox.shrink(),
-                            
-                          ]
-                        ),
+                       
                         Expanded(
                           child: 
                           Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              ManuallyControlledSlider(imgList: widget.images),
                               Text(
                                  "Name: ${widget.name}",
                                 style: TextStyle(
@@ -194,17 +168,17 @@ class _PetCard extends State<PetCard> {
                                       return videoPages[index];
                                     }),
                             ),
-                            widget.images.length > 1 ? SmoothPageIndicator(
-                              controller: videocontroller, 
-                              count: imagePages.length,
-                              effect: const JumpingDotEffect(
-                                spacing:  4.0,    
-                                dotWidth: 4,
-                                dotHeight: 4,
-                                verticalOffset: 6,
-                                activeDotColor:  Color.fromARGB(255, 144, 158, 237),
-                              ),
-                            ) : const SizedBox.shrink(),
+                            // widget.images.length > 1 ? SmoothPageIndicator(
+                            //   controller: videocontroller, 
+                            //   count: imagePages.length,
+                            //   effect: const JumpingDotEffect(
+                            //     spacing:  4.0,    
+                            //     dotWidth: 4,
+                            //     dotHeight: 4,
+                            //     verticalOffset: 6,
+                            //     activeDotColor:  Color.fromARGB(255, 144, 158, 237),
+                            //   ),
+                            // ) : const SizedBox.shrink(),
                           ]
                         ),
                         Expanded(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import '../pages/home.dart';
 import '../pages/rescue.dart';
 import '../pages/donation.dart';

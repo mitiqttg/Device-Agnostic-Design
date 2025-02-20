@@ -1,108 +1,107 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-// import 'package:carousel_slider/carousel_slider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class Carousel extends StatefulWidget {
-  final List<String> imagesVids;
+// class ManuallyControlledSlider extends StatefulWidget {
+//   @override
+//   State<StatefulWidget> createState() {
+//     return _ManuallyControlledSliderState();
+//   }
+// }
 
-  const Carousel(
-    {
-      Key? key,
-      required this.imagesVids,
-    }
-  ) : super(key: key);
+class ManuallyControlledSlider extends StatefulWidget {
+  final List<String> imgList;
+  const ManuallyControlledSlider({
+    Key? key,
+    required this.imgList,
+  }) : super(key: key);
 
   @override
-  State<Carousel> createState() => _Carousel();
+  State<ManuallyControlledSlider> createState() => _ManuallyControlledSliderState();
 }
 
-class _Carousel extends State<Carousel> {
-  late PageController _pageController;
-  // late List<String> images = widget.imagesVids;
-  late List<String> images = [
-    "https://images.wallpapersden.com/image/download/purple-sunrise-4k-vaporwave_bGplZmiUmZqaraWkpJRmbmdlrWZlbWU.jpg",
-    "https://wallpaperaccess.com/full/2637581.jpg",
-    "https://uhdwallpapers.org/uploads/converted/20/01/14/the-mandalorian-5k-1920x1080_477555-mm-90.jpg"
-  ];
-
-  int activePage = 1;
-
+class _ManuallyControlledSliderState extends State<ManuallyControlledSlider> {
+  final CarouselSliderController _controller = CarouselSliderController();
+  int _current = 0;
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(viewportFraction: 0.8, initialPage: 1);
   }
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.sizeOf(context);
-    return Column(
-      children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: size.width / 2.5,
-          child: PageView.builder(
-              itemCount: images.length,
-              pageSnapping: true,
-              controller: _pageController,
-              onPageChanged: (page) {
-                setState(() {
-                  activePage = page;
-                });
-              },
-              itemBuilder: (context, pagePosition) {
-                bool active = pagePosition == activePage;
-                return slider(images, pagePosition, active);
-              }),
-        ),
-        Row(
-         mainAxisAlignment: MainAxisAlignment.center,
-         children: indicators(images.length,activePage))
-      ],
-    );
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    final List<Widget> imageSliders = widget.imgList
+    .map((item) =>  Container(
+            margin: const EdgeInsets.all(5.0),
+            child: ClipRRect(
+                borderRadius: const  BorderRadius.all(Radius.circular(5.0)),
+                child: Stack(
+                  children: <Widget>[
+                    Image.network(item, fit: BoxFit.fill, width: screenWidth),
+                    Positioned(
+                      bottom: 0.0,
+                      left: 0.0,
+                      right: 0.0,
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Color.fromARGB(199, 95, 201, 250),
+                              Color.fromARGB(0, 159, 195, 236)
+                            ],
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                          ),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 20.0),
+                      ),
+                    ),
+                  ],
+                )),
+          ),
+        )
+    .toList();
+    return SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: screenHeight/4, width: screenWidth/3, child: CarouselSlider(
+                items: imageSliders,
+                options: CarouselOptions(
+                  enlargeCenterPage: true, autoPlay: widget.imgList.length > 1,
+                  enableInfiniteScroll: widget.imgList.length > 1, aspectRatio: 2.0,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      _current = index;
+                    });
+                  }
+                ),
+                carouselController: _controller,  
+              ),),
+              widget.imgList.length > 1 ?
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: widget.imgList.asMap().entries.map((entry) {
+                  return GestureDetector(
+                    onTap: () => _controller.animateToPage(entry.key),
+                    child: Container(
+                      width: screenWidth/40,
+                      height: screenHeight/80,
+                      margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 4.0),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: (Theme.of(context).brightness == Brightness.dark
+                                  ? Color.fromARGB(198, 176, 179, 180)
+                                  : Color.fromARGB(198, 87, 92, 94)
+                              .withOpacity(_current == entry.key ? 0.9 : 0.4)),
+                    ),
+                  ));
+                }).toList(),
+              ) : const SizedBox.shrink(),
+            ],
+          ),
+        );
   }
-}
-
-AnimatedContainer slider(images, pagePosition, active) {
-  double margin = active ? 10 : 20;
-
-  return AnimatedContainer(
-    duration: const Duration(seconds: 1),
-    curve: Curves.easeInOutCubic,
-    margin: EdgeInsets.all(margin),
-    decoration: BoxDecoration(
-        image: DecorationImage(image: NetworkImage(images[pagePosition]))),
-  );
-}
-
-imageAnimation(PageController animation, images, pagePosition) {
-  return AnimatedBuilder(
-    
-    animation: animation,
-    builder: (context, widget) {
-      final Size size = MediaQuery.sizeOf(context);
-
-      return SizedBox(
-        height: size.height / 4,
-        width: size.width / 5,
-        child: widget,
-      );
-    },
-    child: Container(
-      margin: const EdgeInsets.all(10),
-      child: Image.network(images[pagePosition]),
-    ),
-  );
-}
-
-List<Widget> indicators(imagesLength, currentIndex) {
-  return List<Widget>.generate(imagesLength, (index) {
-    return Container(
-      margin: const EdgeInsets.all(3),
-      width: 10,
-      height: 10,
-      decoration: BoxDecoration(
-          color: currentIndex == index ? Colors.black : Colors.black26,
-          shape: BoxShape.circle),
-    );
-  });
 }
