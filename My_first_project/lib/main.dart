@@ -8,13 +8,6 @@ import 'pages/donation.dart' as dona;
 import 'pages/adoptform.dart' as adopt;
 import 'package:hive_ce_flutter/hive_flutter.dart';
 
-// Future<void> main() async {
-// await Hive.initFlutter();
-// await Hive.openBox("storage");
-// Get.lazyPut<CandidateController>(() => CandidateController());
-// runApp(MyApp());
-// }
-
 Future<void> main() async {
   await Hive.initFlutter();
   await Hive.openBox("storage");

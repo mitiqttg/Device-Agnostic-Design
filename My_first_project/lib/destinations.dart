@@ -8,7 +8,8 @@ class Destination {
 
 const List<Destination> destinations = <Destination>[
   Destination(Icons.attach_money_rounded, 'Donation'),
-  Destination(Icons.pets, 'Rescue'),
+  Destination(Icons.pets, 'Become adopter'),
   Destination(Icons.home, 'Home'),
+  Destination(Icons.home, 'Need a home'),
   Destination(Icons.library_books_outlined, 'Our story'),
 ];
