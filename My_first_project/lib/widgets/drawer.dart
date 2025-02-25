@@ -61,6 +61,16 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               );
             },
           ),
+          ListTile(
+            leading: const Icon(Icons.handyman),
+            title: const Text('Need a help'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const RescuePage()),
+              );
+            },
+          ),
       ],
     ),
   );}

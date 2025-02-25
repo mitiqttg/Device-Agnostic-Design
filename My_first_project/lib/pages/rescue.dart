@@ -1,3 +1,5 @@
+import '../pages/home.dart';
+
 import '../widgets/petcard.dart';
 import 'package:flutter/material.dart';
 import '../widgets/drawer.dart' as prefix;
@@ -68,12 +70,19 @@ class _RescueState extends State<RescuePage> {
   Widget build(BuildContext context) {
     AppBar appBar() {
       return AppBar(
-        title: Text(
-          'Petlastaa',
-          style: TextStyle(
-            color: isSwitched ? const Color.fromARGB(255, 255, 0, 153) : const Color.fromARGB(255, 241, 119, 212),
-            fontSize: 20,
-            fontWeight: FontWeight.bold
+        title: GestureDetector(
+          onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HomePage()),
+              );
+          },
+          child: const Text(
+            'Petlastaa',
+            style: TextStyle(
+              color: Colors.white, // Customize the text color
+              fontWeight: FontWeight.bold, // Customize the font weight
+            ),
           ),
         ),
         backgroundColor: isSwitched ? const Color.fromARGB(222, 205, 226, 248) : const Color.fromARGB(255, 98, 208, 228),
@@ -105,37 +114,43 @@ class _RescueState extends State<RescuePage> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          PetCard(
-            name: 'Gracie',
-            images: ['lib/assets/cat0.png'],
-            shortDes: 'Cute and gracious',
-            specie: 'lib/assets/Icon_cat.png',
-            videos: ['https://youtube.com/watch?v=iq8Mllwz5no'],
-            longDes: 'love you so much',
-            favorites: 'tell you so much',
-            darkMode: isSwitched,
-          ),
-          SizedBox(height: 8),
-          PetCard(
-            name: 'Thomas',
-            images: ['lib/assets/dog1.png', 'lib/assets/dog3.png', 'lib/assets/dog3.png'],
-            shortDes: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus luctus urna sed urna.",
-            specie: 'lib/assets/Icon_dog.png',
-            videos: ['https://youtube.com/watch?v=iq8Mllwz5no'],
-            longDes: 'i love you so much ',
-            darkMode: isSwitched,
-          ),
-          SizedBox(height: 8),
-          PetCard(
-            name: 'Hope',
-            images: ['../../lib/assets/dog4.png', 'lib/assets/dog1.png',],
-            shortDes: 'Dangerous and gracious',
-            specie: 'lib/assets/Icon_dog.png',
-            videos: ['https://youtube.com/watch?v=iq8Mllwz5no', 'https://youtube.com/watch?v=iq8Mllwz5no'],
-            longDes: 'i love you so much i hope you well and all the best from the bottom of my heart',
-            birth: '2021-09-01',
-            favorites: 'cookies and peekaboo',
-            darkMode: isSwitched,
+          Wrap(
+            spacing: 8.0,
+            runSpacing: 8.0,
+            children: [
+              PetCard(
+                name: 'Gracie',
+                images: ['lib/assets/cat0.png'],
+                shortDes: 'Cute and gracious',
+                specie: 'lib/assets/Icon_cat.png',
+                videos: ['https://youtube.com/watch?v=iq8Mllwz5no'],
+                longDes: 'love you so much',
+                favorites: 'tell you so much',
+                darkMode: isSwitched,
+              ),
+              SizedBox(height: 8),
+              PetCard(
+                name: 'Thomas',
+                images: ['lib/assets/dog1.png', 'lib/assets/dog3.png', 'lib/assets/dog3.png'],
+                shortDes: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus luctus urna sed urna.",
+                specie: 'lib/assets/Icon_dog.png',
+                videos: ['https://youtube.com/watch?v=iq8Mllwz5no'],
+                longDes: 'i love you so much ',
+                darkMode: isSwitched,
+              ),
+              SizedBox(height: 8),
+              PetCard(
+                name: 'Hope',
+                images: ['../../lib/assets/dog4.png', 'lib/assets/dog1.png',],
+                shortDes: 'Dangerous and gracious',
+                specie: 'lib/assets/Icon_dog.png',
+                videos: ['https://youtube.com/watch?v=iq8Mllwz5no', 'https://youtube.com/watch?v=iq8Mllwz5no'],
+                longDes: 'i love you so much i hope you well and all the best from the bottom of my heart',
+                birth: '2021-09-01',
+                favorites: 'cookies and peekaboo',
+                darkMode: isSwitched,
+              ),
+            ],
           ),
           // -------------------Footer section
           prefix.Footer(),

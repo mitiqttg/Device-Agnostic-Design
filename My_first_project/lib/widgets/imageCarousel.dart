@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+// import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 // class ManuallyControlledSlider extends StatefulWidget {
 //   @override
@@ -36,15 +36,17 @@ class _ManuallyControlledSliderState extends State<ManuallyControlledSlider> {
     .map((item) =>  Container(
             margin: const EdgeInsets.all(5.0),
             child: ClipRRect(
-                borderRadius: const  BorderRadius.all(Radius.circular(5.0)),
+                borderRadius: const  BorderRadius.all(Radius.circular(15.0)),
                 child: Stack(
                   children: <Widget>[
-                    Image.network(item, fit: BoxFit.fill, width: screenWidth),
+                    Image.network(item, fit: BoxFit.fill),
                     Positioned(
                       bottom: 0.0,
                       left: 0.0,
                       right: 0.0,
                       child: Container(
+                        height: 20.0,
+                        width: 30,
                         decoration: const BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
@@ -67,7 +69,12 @@ class _ManuallyControlledSliderState extends State<ManuallyControlledSlider> {
     return SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              SizedBox(height: screenHeight/4, width: screenWidth/3, child: CarouselSlider(
+              SizedBox(
+                height: screenHeight/4, 
+                width: screenWidth/3, 
+                // height: 50, 
+                // width: 60, 
+                child: CarouselSlider(
                 items: imageSliders,
                 options: CarouselOptions(
                   enlargeCenterPage: true, autoPlay: widget.imgList.length > 1,
@@ -87,14 +94,16 @@ class _ManuallyControlledSliderState extends State<ManuallyControlledSlider> {
                   return GestureDetector(
                     onTap: () => _controller.animateToPage(entry.key),
                     child: Container(
-                      width: screenWidth/40,
-                      height: screenHeight/80,
-                      margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 4.0),
+                      width: 5,
+                      height: 5,
+                      // width: screenWidth/40,
+                      // height: screenHeight/80,
+                      margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 4.0),
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: (Theme.of(context).brightness == Brightness.dark
-                                  ? Color.fromARGB(198, 176, 179, 180)
-                                  : Color.fromARGB(198, 87, 92, 94)
+                                  ? const Color.fromARGB(198, 176, 179, 180)
+                                  : const Color.fromARGB(198, 87, 92, 94)
                               .withOpacity(_current == entry.key ? 0.9 : 0.4)),
                     ),
                   ));
