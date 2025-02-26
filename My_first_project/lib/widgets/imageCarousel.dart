@@ -11,9 +11,12 @@ import 'package:flutter/material.dart';
 
 class ManuallyControlledSlider extends StatefulWidget {
   final List<String> imgList;
+  
+  final bool selected;
   const ManuallyControlledSlider({
     Key? key,
     required this.imgList,
+    required this.selected,
   }) : super(key: key);
 
   @override
@@ -45,8 +48,8 @@ class _ManuallyControlledSliderState extends State<ManuallyControlledSlider> {
                       left: 0.0,
                       right: 0.0,
                       child: Container(
-                        height: 20.0,
-                        width: 30,
+                        height: widget.selected ? 20.0 : 15,
+                        width: widget.selected ? 30 : 25,
                         decoration: const BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
