@@ -71,20 +71,20 @@ class _PetCard extends State<PetCard> {
           selected = !selected;
         }); 
       },
-      child: Center(
+      
         child: AnimatedContainer(
           alignment: selected ? Alignment.center : AlignmentDirectional.topCenter,
           duration: const Duration(milliseconds: 777),
           curve: Curves.fastOutSlowIn,
-          width: selected ? screenWidth * 0.8 : screenWidth * 0.5,
-          height: selected ? screenHeight * 0.5 : screenHeight *  0.3,
+          width: selected ? screenWidth * 0.9 : screenWidth * 0.3,
+          height: selected ? screenHeight * 0.9 : screenHeight *  0.4,
           decoration: BoxDecoration(
             border: Border.all( width: 1,),
             borderRadius: BorderRadius.circular(20),
             color: widget.darkMode ? selected ?  const Color.fromARGB(222, 219, 228, 254) : const Color.fromARGB(222, 205, 226, 248) : selected ?  const Color.fromARGB(222, 29, 46, 91) : const Color.fromARGB(222, 52, 40, 112),
           ),
-          margin: const EdgeInsets.all(20),
-          padding: const EdgeInsets.all(20),
+          margin: const EdgeInsets.all(5),
+          padding: const EdgeInsets.all(5),
             child: Column(
               children: [
                 ManuallyControlledSlider(imgList: widget.images, selected: selected),
@@ -96,52 +96,53 @@ class _PetCard extends State<PetCard> {
                   ),
                   overflow: TextOverflow.fade,
                 ),
-                selected ?
-                Row(
-                  children: <Widget>[
-                    Flexible(
-                      child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Specie: ${widget.specie}",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: widget.darkMode ? Colors.black : Colors.white,
+                Expanded(
+                  child : selected ? Row(
+                    children: <Widget>[
+                      Flexible(
+                        child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Specie: ${widget.specie}",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: widget.darkMode ? Colors.black : Colors.white,
+                            ),
+                            overflow: TextOverflow.fade,
                           ),
-                          overflow: TextOverflow.fade,
-                        ),
-                        Text(
-                          "Description: ${widget.shortDes}.",
-                          overflow: TextOverflow.fade,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: widget.darkMode ? Colors.black : Colors.white,
+                          Text(
+                            "Description: ${widget.shortDes}.",
+                            overflow: TextOverflow.fade,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: widget.darkMode ? Colors.black : Colors.white,
+                            ),
                           ),
-                        ),
-                        selected ? Text(
-                          widget.longDes,
-                          overflow: TextOverflow.fade,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: widget.darkMode ? Colors.black : Colors.white,
-                          ),
-                        ) : const SizedBox.shrink(),
-                      ],
-                    ),)
-                  ],
-                ) : const SizedBox.shrink(),
+                          selected ? Text(
+                            widget.longDes,
+                            overflow: TextOverflow.fade,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: widget.darkMode ? Colors.black : Colors.white,
+                            ),
+                          ) : const SizedBox.shrink(),
+                        ],
+                      ),)
+                    ],
+                  ) : const SizedBox.shrink()
+                ),
                 selected ? 
                 Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        height: screenHeight / 4,
-                        width: screenWidth / 5,
-                        child: playerWidget,
-                      ),
+                      // SizedBox(
+                      //   height: screenHeight / 4,
+                      //   width: screenWidth / 5,
+                      //   child: playerWidget,
+                      // ),
                       Text(
                         "This is sjasfsabfoboab  about hobbies ",
                         overflow: TextOverflow.fade,
@@ -205,7 +206,7 @@ class _PetCard extends State<PetCard> {
               ],
             ), 
         ),
-    ),);
+    );
     
   }
 

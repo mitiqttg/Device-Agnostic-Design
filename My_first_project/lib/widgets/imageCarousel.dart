@@ -1,13 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-// import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-// class ManuallyControlledSlider extends StatefulWidget {
-//   @override
-//   State<StatefulWidget> createState() {
-//     return _ManuallyControlledSliderState();
-//   }
-// }
 
 class ManuallyControlledSlider extends StatefulWidget {
   final List<String> imgList;
@@ -78,18 +70,19 @@ class _ManuallyControlledSliderState extends State<ManuallyControlledSlider> {
                 // height: 50, 
                 // width: 60, 
                 child: CarouselSlider(
-                items: imageSliders,
-                options: CarouselOptions(
-                  enlargeCenterPage: true, autoPlay: widget.imgList.length > 1,
-                  enableInfiniteScroll: widget.imgList.length > 1, aspectRatio: 2.0,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      _current = index;
-                    });
-                  }
+                  items: imageSliders,
+                  options: CarouselOptions(
+                    enlargeCenterPage: true, autoPlay: widget.imgList.length > 1,
+                    enableInfiniteScroll: widget.imgList.length > 1, aspectRatio: 2.0,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        _current = index;
+                      });
+                    }
+                  ),
+                  carouselController: _controller,  
                 ),
-                carouselController: _controller,  
-              ),),
+              ),
               widget.imgList.length > 1 ?
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -99,14 +92,12 @@ class _ManuallyControlledSliderState extends State<ManuallyControlledSlider> {
                     child: Container(
                       width: 5,
                       height: 5,
-                      // width: screenWidth/40,
-                      // height: screenHeight/80,
                       margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 4.0),
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: (Theme.of(context).brightness == Brightness.dark
                                   ? const Color.fromARGB(198, 176, 179, 180)
-                                  : const Color.fromARGB(198, 87, 92, 94)
+                                  : const Color.fromARGB(197, 8, 8, 8)
                               .withOpacity(_current == entry.key ? 0.9 : 0.4)),
                     ),
                   ));
