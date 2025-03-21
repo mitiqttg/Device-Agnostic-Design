@@ -4,6 +4,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
+import 'package:my_first_flutter/pages/home.dart';
 import '../widgets/drawer.dart' as prefix;
 import '../widgets/footer.dart';
 import '../theme/theme_provider.dart';
@@ -287,12 +288,20 @@ class _AdoptPageState extends State<AdoptPage> {
   Widget build(BuildContext context) {
     AppBar appBar() {
       return AppBar(
-        title: Text(
-          'Petlastaa',
-          style: TextStyle(
-            color: isSwitched ? const Color.fromARGB(255, 255, 0, 153) : const Color.fromARGB(255, 241, 119, 212),
-            fontSize: 20,
-            fontWeight: FontWeight.bold
+        title: GestureDetector(
+          onTap: () {
+            // Navigate to the home page
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );
+          },
+          child: const Text(
+            'Petlastaa',
+            style: TextStyle(
+              color: Colors.white, // Customize the text color
+              fontWeight: FontWeight.bold, // Customize the font weight
+            ),
           ),
         ),
         backgroundColor: isSwitched ? const Color.fromARGB(255, 157, 213, 231) : const Color.fromARGB(255, 98, 208, 228),

@@ -79,12 +79,20 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     AppBar appBar() {
       return AppBar(
-        title: Text(
-          'Petlastaa',
-          style: TextStyle(
-            color: isSwitched ? const Color.fromARGB(255, 255, 0, 153) : Color.fromARGB(255, 241, 119, 212),
-            fontSize: 20,
-            fontWeight: FontWeight.bold
+        title: GestureDetector(
+          onTap: () {
+            // Navigate to the home page
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );
+          },
+          child: const Text(
+            'Petlastaa',
+            style: TextStyle(
+              color: Colors.white, // Customize the text color
+              fontWeight: FontWeight.bold, // Customize the font weight
+            ),
           ),
         ),
         backgroundColor: isSwitched ? const Color.fromARGB(255, 157, 213, 231) : const Color.fromARGB(255, 98, 208, 228),

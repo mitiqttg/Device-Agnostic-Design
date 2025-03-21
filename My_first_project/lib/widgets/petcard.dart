@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-// import 'package:flick_video_player/flick_video_player.dart';
-// import 'package:video_player/video_player.dart';
-import 'videoPlayer.dart';
-// import 'package:flutter_carousel_media_slider/flutter_carousel_media_slider.dart';
+import 'package:video_player/video_player.dart';
+import 'package:chewie/chewie.dart';
 import '../pages/adoptform.dart' as adopt;
 import '../widgets/imageCarousel.dart';
 
@@ -39,224 +37,177 @@ class PetCard extends StatefulWidget {
 
 class _PetCard extends State<PetCard> {
   PageController imagecontroller = PageController();
-  PageController videocontroller = PageController();
-  // String icon_specie;
   bool selected = false;
   late final List<Widget> imagePages;
   late final List<Widget> videoPages;
-  // late FlickManager flickManager;
+  final videoPlayerController = VideoPlayerController.networkUrl(Uri.parse('https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4'));
 
   @override
   void initState() {
     super.initState();
-    imagePages = List.generate(widget.images.length, (index) => Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      child: SizedBox(
-        height: 20,
-        child: Center(
-          child: Image(
-              alignment: const Alignment(-1, -1),
-              image: AssetImage(widget.images[index]),
-              // height: height / 4,
-              // width: width / 5,
-              fit: BoxFit.contain,
-            ),
-        ),
-      ),
-    ));
-
-    videoPages = List.generate(widget.videos.length, (index) => Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),),
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      child: SizedBox(
-        height: 20,
-        child: Center(
-          child: VideoPlayerApp(linkVideo: widget.videos[index],),
-        ),
-      ),
-    ));
-
 
   }
 
   @override
   Widget build(BuildContext context) {
+    videoPlayerController.initialize();
+
+    final chewieController = ChewieController(
+      videoPlayerController: videoPlayerController,
+      autoPlay: false,
+      looping: true,
+    );
+
+    final playerWidget = Chewie(
+      controller: chewieController,
+    );
     final Size size = MediaQuery.sizeOf(context);
-    final double width = size.width;
-    final double height = size.height;
+    final double screenWidth= size.width;
+    final double screenHeight = size.height;
 
     return GestureDetector(
       onTap: () {
         setState(() {
           selected = !selected;
-        });
+        }); 
       },
-      child: Center(
+      
         child: AnimatedContainer(
-          alignment:
-                selected ? Alignment.center : AlignmentDirectional.topCenter,
+          alignment: selected ? Alignment.center : AlignmentDirectional.topCenter,
           duration: const Duration(milliseconds: 777),
           curve: Curves.fastOutSlowIn,
-          width: width / 2,
-          height: !selected ? height / 2.3 : height * 4 / 5,
+          width: selected ? screenWidth * 0.9 : screenWidth * 0.3,
+          height: selected ? screenHeight * 0.9 : screenHeight *  0.4,
           decoration: BoxDecoration(
+            border: Border.all( width: 1,),
             borderRadius: BorderRadius.circular(20),
             color: widget.darkMode ? selected ?  const Color.fromARGB(222, 219, 228, 254) : const Color.fromARGB(222, 205, 226, 248) : selected ?  const Color.fromARGB(222, 29, 46, 91) : const Color.fromARGB(222, 52, 40, 112),
           ),
-          margin: const EdgeInsets.all(20),
-          padding: const EdgeInsets.all(30),
-
-          child: Expanded(
+          margin: const EdgeInsets.all(5),
+          padding: const EdgeInsets.all(5),
             child: Column(
               children: [
-                Row(
-                  children: <Widget>[
-                       
-                        Expanded(
-                          child: 
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ManuallyControlledSlider(imgList: widget.images),
-                              Text(
-                                 "Name: ${widget.name}",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: widget.darkMode ? Colors.black : Colors.white,
-                                ),
-                              ),
-                              Text(
-                                "Specie: ${widget.specie}",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: widget.darkMode ? Colors.black : Colors.white,
-                                ),
-                              ),
-                              Text(
-                                "Description: ${widget.shortDes}.",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: widget.darkMode ? Colors.black : Colors.white,
-                                ),
-                              ),
-                              selected ? Text(
-                                widget.longDes,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: widget.darkMode ? Colors.black : Colors.white,
-                                ),
-                              ) : const SizedBox.shrink(),
-                            ],
-                          ),
-                        ),
-                ],),
-                selected ? 
-                Row(
-                  children: <Widget>[
-                        Column(
-                          children: [
-                            SizedBox(
-                              height: height / 4,
-                              width: width / 5,
-                              child: 
-                                  PageView.builder(
-                                    controller: videocontroller,
-                                    itemCount: videoPages.length,
-                                    itemBuilder: (_, index) {
-                                      return videoPages[index];
-                                    }),
-                            ),
-                            // widget.images.length > 1 ? SmoothPageIndicator(
-                            //   controller: videocontroller, 
-                            //   count: imagePages.length,
-                            //   effect: const JumpingDotEffect(
-                            //     spacing:  4.0,    
-                            //     dotWidth: 4,
-                            //     dotHeight: 4,
-                            //     verticalOffset: 6,
-                            //     activeDotColor:  Color.fromARGB(255, 144, 158, 237),
-                            //   ),
-                            // ) : const SizedBox.shrink(),
-                          ]
-                        ),
-                        Expanded(
-                          child: 
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                 "This is sjasfsabfoboab  about hobbies ",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: widget.darkMode ? Colors.black : Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                  //     ]
-                  //   ),
-                  // ),
-
-                  
-                ],) : const SizedBox.shrink(), 
-
-                const Expanded(child: SizedBox(height: 8)),
-                // ------------- Adopt bottom text -------------
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      TextButton(
-                        child: Text(
-                          'Adopt',
-                          style: TextStyle(
-                            color: widget.darkMode ? const Color.fromARGB(255, 0, 0, 0) : const Color.fromARGB(255, 255, 255, 255),
-                            )
-                          ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => adopt.Adoptform()),
-                          );
-                        },
-                      ),
-                      TextButton(
-                        child: Text(
-                          'Contact us', 
-                          style: TextStyle(
-                            color: widget.darkMode ? const Color.fromARGB(255, 0, 0, 0) : const Color.fromARGB(255, 255, 255, 255),
-                            )
-                        ),
-                        onPressed: () {},
-                      ),
-
-                      // ------------- Expand button -------------
-                      !selected ? TextButton(
-                        child: const Text('⬇️'),
-                        onPressed: () {
-                          setState(() {
-                            selected = !selected;
-                          });
-                        },
-                      ) : TextButton(
-                        child: const Text('⬆️'),
-                        onPressed: () {
-                          setState(() {
-                            selected = !selected;
-                          });
-                        },
-                      ),
-                      const SizedBox(width: 8),
-                    ],
+                ManuallyControlledSlider(imgList: widget.images, selected: selected),
+                Text(
+                  "Name: ${widget.name}",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: widget.darkMode ? Colors.black : Colors.white,
                   ),
+                  overflow: TextOverflow.fade,
+                ),
+                Expanded(
+                  child : selected ? Row(
+                    children: <Widget>[
+                      Flexible(
+                        child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Specie: ${widget.specie}",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: widget.darkMode ? Colors.black : Colors.white,
+                            ),
+                            overflow: TextOverflow.fade,
+                          ),
+                          Text(
+                            "Description: ${widget.shortDes}.",
+                            overflow: TextOverflow.fade,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: widget.darkMode ? Colors.black : Colors.white,
+                            ),
+                          ),
+                          selected ? Text(
+                            widget.longDes,
+                            overflow: TextOverflow.fade,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: widget.darkMode ? Colors.black : Colors.white,
+                            ),
+                          ) : const SizedBox.shrink(),
+                        ],
+                      ),)
+                    ],
+                  ) : const SizedBox.shrink()
+                ),
+                selected ? 
+                Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // SizedBox(
+                      //   height: screenHeight / 4,
+                      //   width: screenWidth / 5,
+                      //   child: playerWidget,
+                      // ),
+                      Text(
+                        "This is sjasfsabfoboab  about hobbies ",
+                        overflow: TextOverflow.fade,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: widget.darkMode ? Colors.black : Colors.white,
+                        ),
+                      ),
+                    ], 
+                ) : const SizedBox.shrink(), 
+
+                // ------------- Adopt bottom text -------------
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget> [
+                    TextButton(
+                      child: Text(
+                        'Adopt',
+                        style: TextStyle(
+                          color: widget.darkMode ? const Color.fromARGB(255, 0, 0, 0) : const Color.fromARGB(255, 255, 255, 255),
+                          )
+                        ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => adopt.Adoptform()),
+                        );
+                      },
+                    ),
+                    TextButton(
+                      child: Text(
+                        'Contact us', 
+                        style: TextStyle(
+                          color: widget.darkMode ? const Color.fromARGB(255, 0, 0, 0) : const Color.fromARGB(255, 255, 255, 255),
+                          )
+                      ),
+                      onPressed: () {},
+                    ),
+
+                    // ------------- Expand button -------------
+                    !selected ? TextButton(
+                      child: const Text('⬇️'),
+                      onPressed: () {
+                        setState(() { 
+                          selected = !selected; 
+                        });
+                      },
+                    ) : TextButton(
+                      child: const Text('⬆️'),
+                      onPressed: () {
+                        setState(() {
+                          selected = !selected;
+                        });
+                      },
+                    ),
+                  
+                  ],
+                ),
+                const SizedBox(width: 8),
               ],
-            ),
-          )
+            ), 
         ),
-    ),);
+    );
+    
   }
+
 }

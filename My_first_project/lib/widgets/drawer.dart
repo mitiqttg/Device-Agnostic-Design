@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../pages/home.dart';
 import '../pages/rescue.dart';
+import '../pages/needhelp.dart';
 import '../pages/donation.dart';
 
 class NavigationDrawer extends StatefulWidget {
@@ -58,6 +59,16 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const RescuePage()),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.handyman),
+            title: const Text('Need a help'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ExpandableOverlayContainer()),
               );
             },
           ),
