@@ -35,9 +35,9 @@ class _ExpandableOverlayContainerState
                   setState(() {
                     // Toggle the expanded state
                     if (_expandedIndex == index) {
-                      _expandedIndex = null;
+                      _expandedIndex = null; // Collapse if already expanded
                     } else {
-                      _expandedIndex = index; 
+                      _expandedIndex = index; // Expand the clicked container
                     }
                   });
                 },
