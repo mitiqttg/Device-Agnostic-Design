@@ -30,7 +30,7 @@ class _RescueState extends State<RescuePage> {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: const Color(0xff1D1617).withValues(),
+            color: const Color(0xff1D1617).withOpacity(0.11),
             blurRadius: 40,
             spreadRadius: 0.0,
           ),
@@ -110,56 +110,36 @@ class _RescueState extends State<RescuePage> {
     }
     
     //------------------------------------------------------------Body of Home
-    GridView bodyView() {
-      return GridView.extent(
-        maxCrossAxisExtent: 200, 
-        shrinkWrap: true,// Maximum width of each grid item
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        padding: const EdgeInsets.all(30),
+    Column bodyView() {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          PetCard(
+          Wrap(
+            spacing: 8.0,
+            runSpacing: 8.0,
+            children: [
+              PetCard(
                 name: 'Gracie',
                 images: ['lib/assets/cat0.png'],
                 shortDes: 'Cute and gracious',
-                specie: 'Cat',
+                specie: 'lib/assets/Icon_cat.png',
                 videos: ['https://youtube.com/watch?v=iq8Mllwz5no'],
                 longDes: 'love you so much',
                 favorites: 'tell you so much',
                 darkMode: isSwitched,
               ),
-          PetCard(
+              SizedBox(height: 8),
+              PetCard(
                 name: 'Thomas',
                 images: ['lib/assets/dog1.png', 'lib/assets/dog3.png', 'lib/assets/dog3.png'],
                 shortDes: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus luctus urna sed urna.",
-                specie: 'dog',
+                specie: 'lib/assets/Icon_dog.png',
                 videos: ['https://youtube.com/watch?v=iq8Mllwz5no'],
                 longDes: 'i love you so much ',
                 darkMode: isSwitched,
               ),
-          PetCard(
-                name: 'Hope',
-                images: ['../../lib/assets/dog4.png', 'lib/assets/dog1.png',],
-                shortDes: 'Dangerous and gracious',
-                specie: 'dog',
-                videos: ['https://youtube.com/watch?v=iq8Mllwz5no', 'https://youtube.com/watch?v=iq8Mllwz5no'],
-                longDes: 'i love you so much i hope you well and all the best from the bottom of my heart',
-                birth: '2021-09-01',
-                favorites: 'cookies and peekaboo',
-                darkMode: isSwitched,
-              ),
-          PetCard(
-                name: 'Hope',
-                images: ['../../lib/assets/dog4.png', 'lib/assets/dog1.png',],
-                shortDes: 'Dangerous and gracious',
-                specie: 'dog',
-                videos: ['https://youtube.com/watch?v=iq8Mllwz5no', 'https://youtube.com/watch?v=iq8Mllwz5no'],
-                longDes: 'i love you so much i hope you well and all the best from the bottom of my heart',
-                birth: '2021-09-01',
-                favorites: 'cookies and peekaboo',
-                darkMode: isSwitched,
-              ),
-          PetCard(
+              SizedBox(height: 8),
+              PetCard(
                 name: 'Hope',
                 images: ['../../lib/assets/dog4.png', 'lib/assets/dog1.png',],
                 shortDes: 'Dangerous and gracious',
@@ -170,133 +150,12 @@ class _RescueState extends State<RescuePage> {
                 favorites: 'cookies and peekaboo',
                 darkMode: isSwitched,
               ),
-          PetCard(
-                name: 'Hope',
-                images: ['../../lib/assets/dog4.png', 'lib/assets/dog1.png',],
-                shortDes: 'Dangerous and gracious',
-                specie: 'lib/assets/Icon_dog.png',
-                videos: ['https://youtube.com/watch?v=iq8Mllwz5no', 'https://youtube.com/watch?v=iq8Mllwz5no'],
-                longDes: 'i love you so much i hope you well and all the best from the bottom of my heart',
-                birth: '2021-09-01',
-                favorites: 'cookies and peekaboo',
-                darkMode: isSwitched,
-              ),
-          PetCard(
-                name: 'Hope',
-                images: ['../../lib/assets/dog4.png', 'lib/assets/dog1.png',],
-                shortDes: 'Dangerous and gracious',
-                specie: 'lib/assets/Icon_dog.png',
-                videos: ['https://youtube.com/watch?v=iq8Mllwz5no', 'https://youtube.com/watch?v=iq8Mllwz5no'],
-                longDes: 'i love you so much i hope you well and all the best from the bottom of my heart',
-                birth: '2021-09-01',
-                favorites: 'cookies and peekaboo',
-                darkMode: isSwitched,
-              ),
-          PetCard(
-                name: 'Hope',
-                images: ['../../lib/assets/dog4.png', 'lib/assets/dog1.png',],
-                shortDes: 'Dangerous and gracious',
-                specie: 'lib/assets/Icon_dog.png',
-                videos: ['https://youtube.com/watch?v=iq8Mllwz5no', 'https://youtube.com/watch?v=iq8Mllwz5no'],
-                longDes: 'i love you so much i hope you well and all the best from the bottom of my heart',
-                birth: '2021-09-01',
-                favorites: 'cookies and peekaboo',
-                darkMode: isSwitched,
-              ),
-          PetCard(
-                name: 'Hope',
-                images: ['../../lib/assets/dog4.png', 'lib/assets/dog1.png',],
-                shortDes: 'Dangerous and gracious',
-                specie: 'lib/assets/Icon_dog.png',
-                videos: ['https://youtube.com/watch?v=iq8Mllwz5no', 'https://youtube.com/watch?v=iq8Mllwz5no'],
-                longDes: 'i love you so much i hope you well and all the best from the bottom of my heart',
-                birth: '2021-09-01',
-                favorites: 'cookies and peekaboo',
-                darkMode: isSwitched,
-              ),
-          PetCard(
-                name: 'Hope',
-                images: ['../../lib/assets/dog4.png', 'lib/assets/dog1.png',],
-                shortDes: 'Dangerous and gracious',
-                specie: 'lib/assets/Icon_dog.png',
-                videos: ['https://youtube.com/watch?v=iq8Mllwz5no', 'https://youtube.com/watch?v=iq8Mllwz5no'],
-                longDes: 'i love you so much i hope you well and all the best from the bottom of my heart',
-                birth: '2021-09-01',
-                favorites: 'cookies and peekaboo',
-                darkMode: isSwitched,
-              ),
-          PetCard(
-                name: 'Hope',
-                images: ['../../lib/assets/dog4.png', 'lib/assets/dog1.png',],
-                shortDes: 'Dangerous and gracious',
-                specie: 'lib/assets/Icon_dog.png',
-                videos: ['https://youtube.com/watch?v=iq8Mllwz5no', 'https://youtube.com/watch?v=iq8Mllwz5no'],
-                longDes: 'i love you so much i hope you well and all the best from the bottom of my heart',
-                birth: '2021-09-01',
-                favorites: 'cookies and peekaboo',
-                darkMode: isSwitched,
-              ),
-          PetCard(
-                name: 'Hope',
-                images: ['../../lib/assets/dog4.png', 'lib/assets/dog1.png',],
-                shortDes: 'Dangerous and gracious',
-                specie: 'lib/assets/Icon_dog.png',
-                videos: ['https://youtube.com/watch?v=iq8Mllwz5no', 'https://youtube.com/watch?v=iq8Mllwz5no'],
-                longDes: 'i love you so much i hope you well and all the best from the bottom of my heart',
-                birth: '2021-09-01',
-                favorites: 'cookies and peekaboo',
-                darkMode: isSwitched,
-              ),
-
-        ]
-        
-        );
-
-// Column(
-//         crossAxisAlignment: CrossAxisAlignment.center,
-//         children: [
-//           Wrap(
-//             spacing: 8.0,
-//             runSpacing: 8.0,
-//             children: [
-//               PetCard(
-//                 name: 'Gracie',
-//                 images: ['lib/assets/cat0.png'],
-//                 shortDes: 'Cute and gracious',
-//                 specie: 'lib/assets/Icon_cat.png',
-//                 videos: ['https://youtube.com/watch?v=iq8Mllwz5no'],
-//                 longDes: 'love you so much',
-//                 favorites: 'tell you so much',
-//                 darkMode: isSwitched,
-//               ),
-//               SizedBox(height: 8),
-//               PetCard(
-//                 name: 'Thomas',
-//                 images: ['lib/assets/dog1.png', 'lib/assets/dog3.png', 'lib/assets/dog3.png'],
-//                 shortDes: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus luctus urna sed urna.",
-//                 specie: 'lib/assets/Icon_dog.png',
-//                 videos: ['https://youtube.com/watch?v=iq8Mllwz5no'],
-//                 longDes: 'i love you so much ',
-//                 darkMode: isSwitched,
-//               ),
-//               SizedBox(height: 8),
-//               PetCard(
-//                 name: 'Hope',
-//                 images: ['../../lib/assets/dog4.png', 'lib/assets/dog1.png',],
-//                 shortDes: 'Dangerous and gracious',
-//                 specie: 'lib/assets/Icon_dog.png',
-//                 videos: ['https://youtube.com/watch?v=iq8Mllwz5no', 'https://youtube.com/watch?v=iq8Mllwz5no'],
-//                 longDes: 'i love you so much i hope you well and all the best from the bottom of my heart',
-//                 birth: '2021-09-01',
-//                 favorites: 'cookies and peekaboo',
-//                 darkMode: isSwitched,
-//               ),
-//             ],
-//           ),
-//           // -------------------Footer section
-//           prefix.Footer(),
-//         ],
-//       );
+            ],
+          ),
+          // -------------------Footer section
+          prefix.Footer(),
+        ],
+      );
     }
 
     return MaterialApp(
@@ -305,7 +164,9 @@ class _RescueState extends State<RescuePage> {
         backgroundColor: Theme.of(context).colorScheme.surface, 
         appBar: appBar(),
         drawer: const prefix.NavigationDrawer(location: 'Rescue page',),
-        body: bodyView(),
+        body: SingleChildScrollView(
+          child: bodyView(),
+        )
       ),
     );
   }

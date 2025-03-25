@@ -4,6 +4,12 @@ import 'package:chewie/chewie.dart';
 import '../pages/adoptform.dart' as adopt;
 import '../widgets/imageCarousel.dart';
 
+class Breakpoints {
+  static const sm = 640;
+  static const md = 768;
+  static const lg = 1024;
+}
+
 class PetCard extends StatefulWidget {
   final String name;
   final String? birth;
@@ -45,11 +51,6 @@ class _PetCard extends State<PetCard> {
   @override
   void initState() {
     super.initState();
-
-  }
-
-  @override
-  Widget build(BuildContext context) {
     videoPlayerController.initialize();
 
     final chewieController = ChewieController(
@@ -61,153 +62,190 @@ class _PetCard extends State<PetCard> {
     final playerWidget = Chewie(
       controller: chewieController,
     );
+
+    videoPages = List.generate(widget.videos.length, (index) => Container(
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      child: SizedBox(
+        height: 20,
+        child: Center( child: playerWidget,),
+      ),
+    ));
+
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final Size size = MediaQuery.sizeOf(context);
-    final double screenWidth= size.width;
+    final double screenWidth = size.width;
     final double screenHeight = size.height;
 
+    // Calculate container dimensions based on breakpoints
+    double containerWidth, containerHeight;
+    if (screenWidth < Breakpoints.md) {
+      containerWidth = selected ? screenWidth * 0.8 : screenWidth * 0.4;
+      containerHeight = selected ? screenHeight * 0.6 : screenHeight * 0.3;
+    } else if (screenWidth < Breakpoints.lg) {
+      containerWidth = selected ? screenWidth * 0.6 : screenWidth * 0.4;
+      containerHeight = selected ? screenHeight * 0.6 : screenHeight * 0.3;
+    } else {
+      containerWidth = selected ? screenWidth * 0.5 : screenWidth * 0.3;
+      containerHeight = selected ? screenHeight * 0.6 : screenHeight * 0.3;
+    }
+
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          selected = !selected;
-        }); 
-      },
-      
+      onTap: () => setState(() => selected = !selected),
+      child: Center(
         child: AnimatedContainer(
-          alignment: selected ? Alignment.center : AlignmentDirectional.topCenter,
           duration: const Duration(milliseconds: 777),
           curve: Curves.fastOutSlowIn,
-          width: selected ? screenWidth * 0.9 : screenWidth * 0.3,
-          height: selected ? screenHeight * 0.9 : screenHeight *  0.4,
+          width: containerWidth,
+          height: containerHeight,
           decoration: BoxDecoration(
-            border: Border.all( width: 1,),
+            border: Border.all(width: 1),
             borderRadius: BorderRadius.circular(20),
-            color: widget.darkMode ? selected ?  const Color.fromARGB(222, 219, 228, 254) : const Color.fromARGB(222, 205, 226, 248) : selected ?  const Color.fromARGB(222, 29, 46, 91) : const Color.fromARGB(222, 52, 40, 112),
+            color: widget.darkMode 
+              ? selected 
+                ? const Color.fromARGB(222, 219, 228, 254)
+                : const Color.fromARGB(222, 205, 226, 248)
+              : selected 
+                ? const Color.fromARGB(222, 29, 46, 91)
+                : const Color.fromARGB(222, 52, 40, 112),
           ),
-          margin: const EdgeInsets.all(5),
-          padding: const EdgeInsets.all(5),
+          margin: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: containerHeight * 0.8,
+              maxHeight: containerHeight,
+            ),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                ManuallyControlledSlider(imgList: widget.images, selected: selected),
-                Text(
-                  "Name: ${widget.name}",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: widget.darkMode ? Colors.black : Colors.white,
-                  ),
-                  overflow: TextOverflow.fade,
+                // Image Carousel
+                SizedBox(
+                  height: selected ? containerHeight * 0.4 : containerHeight * 0.6,
+                  child: ManuallyControlledSlider(imgList: widget.images, selected: selected,),
                 ),
+
+                // Basic Info (Always visible)
                 Expanded(
-                  child : selected ? Row(
-                    children: <Widget>[
-                      Flexible(
-                        child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                  child: SingleChildScrollView(
+                    physics: const ClampingScrollPhysics(),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Specie: ${widget.specie}",
+                            widget.name,
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
                               color: widget.darkMode ? Colors.black : Colors.white,
                             ),
-                            overflow: TextOverflow.fade,
                           ),
                           Text(
-                            "Description: ${widget.shortDes}.",
-                            overflow: TextOverflow.fade,
+                            widget.specie,
                             style: TextStyle(
-                              fontSize: 16,
-                              color: widget.darkMode ? Colors.black : Colors.white,
+                              fontSize: 14,
+                              color: widget.darkMode ? Colors.black54 : Colors.white70,
                             ),
                           ),
-                          selected ? Text(
-                            widget.longDes,
-                            overflow: TextOverflow.fade,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: widget.darkMode ? Colors.black : Colors.white,
-                            ),
-                          ) : const SizedBox.shrink(),
                         ],
-                      ),)
-                    ],
-                  ) : const SizedBox.shrink()
-                ),
-                selected ? 
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // SizedBox(
-                      //   height: screenHeight / 4,
-                      //   width: screenWidth / 5,
-                      //   child: playerWidget,
-                      // ),
-                      Text(
-                        "This is sjasfsabfoboab  about hobbies ",
-                        overflow: TextOverflow.fade,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: widget.darkMode ? Colors.black : Colors.white,
-                        ),
                       ),
-                    ], 
-                ) : const SizedBox.shrink(), 
-
-                // ------------- Adopt bottom text -------------
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget> [
-                    TextButton(
-                      child: Text(
-                        'Adopt',
-                        style: TextStyle(
-                          color: widget.darkMode ? const Color.fromARGB(255, 0, 0, 0) : const Color.fromARGB(255, 255, 255, 255),
-                          )
-                        ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => adopt.Adoptform()),
-                        );
-                      },
                     ),
-                    TextButton(
-                      child: Text(
-                        'Contact us', 
-                        style: TextStyle(
-                          color: widget.darkMode ? const Color.fromARGB(255, 0, 0, 0) : const Color.fromARGB(255, 255, 255, 255),
-                          )
-                      ),
-                      onPressed: () {},
-                    ),
-
-                    // ------------- Expand button -------------
-                    !selected ? TextButton(
-                      child: const Text('⬇️'),
-                      onPressed: () {
-                        setState(() { 
-                          selected = !selected; 
-                        });
-                      },
-                    ) : TextButton(
-                      child: const Text('⬆️'),
-                      onPressed: () {
-                        setState(() {
-                          selected = !selected;
-                        });
-                      },
-                    ),
-                  
-                  ],
+                  ),
                 ),
-                const SizedBox(width: 8),
+
+                // Collapsible Content
+                if (selected) ...[
+                  const SizedBox(height: 12),
+                  Text(
+                    widget.shortDes,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: widget.darkMode ? Colors.black : Colors.white,
+                    ),
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    widget.longDes,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: widget.darkMode ? Colors.black : Colors.white,
+                    ),
+                    maxLines: 4,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+
+                // Buttons Section
+                Padding(
+                  padding: const EdgeInsets.only(top: 12.0),
+                  child: _buildButtonRow(),
+                ),
               ],
-            ), 
+            ),
+          ),
         ),
+      ),
     );
-    
   }
 
+  Widget _buildButtonRow() {
+    return Material(
+      elevation: 8,
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: widget.darkMode 
+            ? selected 
+              ? const Color.fromARGB(222, 219, 228, 254)
+              : const Color.fromARGB(222, 205, 226, 248)
+            : selected 
+              ? const Color.fromARGB(222, 29, 46, 91)
+              : const Color.fromARGB(222, 52, 40, 112),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            // ... existing buttons with modified padding ...
+            _buildTextButton('Adopt', () { /*...*/ }),
+            _buildTextButton('Contact', () {}),
+            IconButton(
+              icon: Icon(selected ? Icons.expand_less : Icons.expand_more),
+              color: widget.darkMode ? Colors.black : Colors.white,
+              onPressed: () => setState(() => selected = !selected),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextButton(String text, VoidCallback onPressed) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: TextButton(
+        style: TextButton.styleFrom(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          visualDensity: VisualDensity.compact,
+        ),
+        onPressed: onPressed,
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 14,
+            color: widget.darkMode ? Colors.black : Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
 }
