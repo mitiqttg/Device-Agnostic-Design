@@ -1,251 +1,96 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
-import 'package:my_first_flutter/pages/home.dart';
 import '../widgets/drawer.dart' as prefix;
 import '../widgets/footer.dart';
 import '../theme/theme_provider.dart';
 import 'package:provider/provider.dart';
+import './home.dart' as home;
 
-class Adoptform extends StatelessWidget {
-  const Adoptform({super.key});
+class AdoptForm extends StatelessWidget {
+  final int petId;
+
+  const AdoptForm({super.key, required this.petId});
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
+      theme: Provider.of<ThemeProvider>(context).themeData,
       home: Scaffold(
-        body: Column(
-          children: [
-            CandidateInputWidget(),
-            CandidateListWidget(),
-          ],
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        appBar: _buildAppBar(context),
+        drawer: const prefix.NavigationDrawer(location: 'Adopt Form'),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              _buildHeader(context),
+              CandidateInputWidget(petId: petId),
+              CandidateListWidget(),
+              const Footer(),
+            ],
+          ),
         ),
       ),
     );
   }
-}
 
-class Candidate {
-  final String name;
-  final String address;
-  final String phone;
-  final String dob;
-  final String job;
-  final String description;
-
-  Candidate(this.name, this.address, this.phone, this.dob, this.job, this.description);
-
-  Map toJson() => {
-        'name': name,
-        'address': address,
-        'phone': phone,
-        'dob': dob,
-        'job': job,
-        'description': description,
-      };
-
-  factory Candidate.fromJson(Map json) {
-    return Candidate(json['name'], json['address'], json['phone'], json['dob'], json['job'], json['description']);
-  }
-}
-
-class CandidateController {
-  final storage = Hive.box("storage");
-
-  RxList candidates;
-
-  CandidateController() : candidates = [].obs {
-    if (storage.get('candidates') == null) {
-      storage.put('candidates', []);
-    }
-
-    candidates.value = storage
-        .get('candidates')
-        .map(
-          (candidate) => Candidate.fromJson(candidate),
-        )
-        .toList();
-  }
-
-  void _save() {
-    storage.put(
-      'candidates',
-      candidates.map((candidate) => candidate.toJson()).toList(),
+  AppBar _buildAppBar(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    return AppBar(
+      title: GestureDetector(
+        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const home.HomePage())),
+        child: const Text(
+          'Petlastaa',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      backgroundColor: const Color.fromARGB(222, 205, 226, 248),
+       
+      elevation: 10.0,
+      centerTitle: true,
+      actions: [
+        _searchField(),
+        // Switch(
+        //   thumbIcon: WidgetStateProperty.all(
+        //     themeProvider.isDarkMode 
+        //         ? const Icon(Icons.wb_sunny) 
+        //         : const Icon(Icons.nightlight_round),
+        //   ),
+        //   focusColor: const Color.fromARGB(255, 175, 214, 238),
+        //   activeColor: const Color.fromARGB(255, 68, 172, 241),
+        //   value: themeProvider.isDarkMode,
+        //   onChanged: (value) => themeProvider.toggleTheme(),
+        // ),
+        const BackButton(),
+      ],
     );
   }
 
-  void add(Candidate candidate) {
-    candidates.add(candidate);
-    _save();
-  }
-
-  // void changeCompleted(Candidate candidate) {
-  //   candidate.address = !candidate.address;
-  //   candidates.refresh();
-  //   _save();
-  // }
-
-  void delete(Candidate candidate) {
-    candidates.remove(candidate);
-    candidates.refresh();
-    _save();
-  }
-
-  get size => candidates.length;
-}
-
-class CandidateListWidget extends StatelessWidget {
-  final candidateController = Get.find<CandidateController>();
-
-  CandidateListWidget({super.key});
-
-  // const CandidateListWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Obx(
-      () => candidateController.size == 0
-          ? const Text('No candidates')
-          : Column(
-              children: candidateController.candidates
-                  .map(
-                    (candidate) => Text(candidate.name),
-                  )
-                  .toList(),
+  Widget _buildHeader(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+      child: Text(
+        'Adoption Application for Pet #$petId',
+        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
-    );
-  }
-}
-
-class CandidateInputWidget extends StatelessWidget {
-  final candidateController = Get.find<CandidateController>();
-  static final _formKey = GlobalKey<FormBuilderState>();
-
-  CandidateInputWidget({super.key});
-
-  _submit() {
-    if (_formKey.currentState!.saveAndValidate()) {
-      Candidate candidate = Candidate(
-        _formKey.currentState!.value['candidate'],
-        _formKey.currentState!.value['address'],
-        _formKey.currentState!.value['phone'],
-        _formKey.currentState!.value['dob'],
-        _formKey.currentState!.value['job'],
-        _formKey.currentState!.value['description'],
-      );
-
-      candidateController.add(candidate);
-      _formKey.currentState?.reset();
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FormBuilder(
-      key: _formKey,
-      child: Column(
-        children: [
-          FormBuilderTextField(
-            name: 'candidate',
-            decoration: const InputDecoration(
-              hintText: 'Candidate name',
-              border: OutlineInputBorder(),
-            ),
-            autovalidateMode: AutovalidateMode.always,
-            validator: FormBuilderValidators.required(),
-          ),
-          FormBuilderTextField(
-            name: 'address',
-            decoration: const InputDecoration(
-              hintText: 'Your address',
-              border: OutlineInputBorder(),
-            ),
-            autovalidateMode: AutovalidateMode.always,
-            validator: FormBuilderValidators.required(),
-          ),
-          FormBuilderTextField(
-            name: 'phone',
-            decoration: const InputDecoration(
-              hintText: 'Your phone number',
-              border: OutlineInputBorder(),
-            ),
-            autovalidateMode: AutovalidateMode.always,
-            validator: FormBuilderValidators.required(),
-          ),
-          FormBuilderTextField(
-            name: 'dob',
-            decoration: const InputDecoration(
-              hintText: 'Your date of birth',
-              border: OutlineInputBorder(),
-            ),
-            autovalidateMode: AutovalidateMode.always,
-            validator: FormBuilderValidators.required(),
-          ),
-          FormBuilderTextField(
-            name: 'job',
-            decoration: const InputDecoration(
-              hintText: 'Your job',
-              border: OutlineInputBorder(),
-            ),
-            autovalidateMode: AutovalidateMode.always,
-            validator: FormBuilderValidators.required(),
-          ),
-          FormBuilderTextField(
-            name: 'description',
-            decoration: const InputDecoration(
-              hintText: 'Description',
-              border: OutlineInputBorder(),
-            ),
-            autovalidateMode: AutovalidateMode.always,
-            validator: FormBuilderValidators.required(),
-          ),
-          
-          ElevatedButton(
-            onPressed: _submit,
-            child: const Text("Add candidate"),
-          ),
-        ],
+        textAlign: TextAlign.center,
       ),
     );
   }
-}
 
-class Breakpoints {
-  static const sm = 640;
-  static const md = 768;
-  static const lg = 1024;
-  static const xl = 1280;
-  static const xl2 = 1536;
-}
-
-class AdoptPage extends StatefulWidget {
-  const AdoptPage({super.key});
-
-  @override
-  State<AdoptPage> createState() => _AdoptPageState();
-}
-
-class _AdoptPageState extends State<AdoptPage> {
-  bool isSwitched = true;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  //------------------------------------------------------------Search box
   Container _searchField() {
     double appBarHeight = AppBar().preferredSize.height;
-    // double appBarWidth = AppBar().preferredSize.width;
-
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10),
-      height: appBarHeight / 2, 
-      width: appBarHeight * 4 ,
-
+      height: appBarHeight / 2,
+      width: appBarHeight * 4,
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -256,98 +101,189 @@ class _AdoptPageState extends State<AdoptPage> {
         ],
       ),
       child: SearchAnchor(
-        builder: (BuildContext context, SearchController controller) {
-          return SearchBar(
-            controller: controller,
-            padding: const WidgetStatePropertyAll<EdgeInsets>(
-              EdgeInsets.symmetric(horizontal: 10.0),
+        builder: (context, controller) => SearchBar(
+          controller: controller,
+          padding: const WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 10)),
+          onTap: () => controller.openView(),
+          onChanged: (_) => controller.openView(),
+          leading: const Icon(Icons.search),
+        ),
+        suggestionsBuilder: (context, controller) => List.generate(5, 
+          (index) => ListTile(title: Text('item $index'),),
+      ),
+    ));
+  }
+}
+
+class Candidate {
+  final int petId;
+  final String name;
+  final String address;
+  final String phone;
+  final String dob;
+  final String job;
+  final String description;
+
+  Candidate(this.petId, this.name, this.address, this.phone, this.dob, this.job, this.description);
+
+  Map toJson() => {
+    'petId': petId,
+    'name': name,
+    'address': address,
+    'phone': phone,
+    'dob': dob,
+    'job': job,
+    'description': description,
+  };
+
+  factory Candidate.fromJson(Map json) => Candidate(
+    json['petId'],
+    json['name'],
+    json['address'],
+    json['phone'],
+    json['dob'],
+    json['job'],
+    json['description'],
+  );
+}
+
+class CandidateController {
+  final storage = Hive.box("storage");
+  RxList candidates = [].obs;
+
+  CandidateController() {
+    _initializeStorage();
+  }
+
+  void _initializeStorage() {
+    if (storage.get('candidates') == null) storage.put('candidates', []);
+    candidates.value = storage.get('candidates').map((c) => Candidate.fromJson(c)).toList();
+  }
+
+  void add(Candidate candidate) {
+    candidates.add(candidate);
+    _save();
+  }
+
+  void delete(Candidate candidate) {
+    candidates.remove(candidate);
+    _save();
+  }
+
+  void _save() {
+    storage.put('candidates', candidates.map((c) => c.toJson()).toList());
+  }
+
+  get size => candidates.length;
+}
+
+class CandidateListWidget extends StatelessWidget {
+  final candidateController = Get.find<CandidateController>();
+
+  CandidateListWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+      () => candidateController.size == 0
+          ? const Padding(
+              padding: EdgeInsets.all(20),
+              child: Text('No applications yet'),
+            )
+          : ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: candidateController.candidates.length,
+              itemBuilder: (context, index) => ListTile(
+                title: Text(candidateController.candidates[index].name),
+                subtitle: Text('Pet ID: ${candidateController.candidates[index].petId}'),
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () => candidateController.delete(candidateController.candidates[index]),
+                ),
+              ),
             ),
-            onTap: () {
-              controller.openView();
-            },
-            onChanged: (_) {
-              controller.openView();
-            },
-            leading: const Icon(Icons.search),
-          );
-        },
-        suggestionsBuilder: (BuildContext context, SearchController controller) {
-          return List<ListTile>.generate(5, (int index) {
-            final String item = 'item $index';
-            return ListTile(
-              title: Text(item),
-              onTap: () {},
-            );
-          });
-        },
+    );
+  }
+}
+
+class CandidateInputWidget extends StatelessWidget {
+  final int petId;
+  final candidateController = Get.find<CandidateController>();
+  static final _formKey = GlobalKey<FormBuilderState>();
+
+  CandidateInputWidget({super.key, required this.petId});
+
+  void _submit() {
+    if (_formKey.currentState!.saveAndValidate()) {
+      final candidate = Candidate(
+        petId,
+        _formKey.currentState!.value['candidate'],
+        _formKey.currentState!.value['address'],
+        _formKey.currentState!.value['phone'],
+        _formKey.currentState!.value['dob'],
+        _formKey.currentState!.value['job'],
+        _formKey.currentState!.value['description'],
+      );
+      candidateController.add(candidate);
+      _formKey.currentState?.reset();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: FormBuilder(
+        key: _formKey,
+        child: Column(
+          children: [
+            _buildFormField('candidate', 'Full Name'),
+            _buildFormField('address', 'Street Address'),
+            _buildFormField('phone', 'Phone Number', TextInputType.phone),
+            _buildFormField('dob', 'Date of Birth'),
+            _buildFormField('job', 'Occupation'),
+            _buildDescriptionField(),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _submit,
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+              ),
+              child: const Text("Submit Application"),
+            ),
+            const SizedBox(height: 40),
+          ],
+        ),
       ),
     );
   }
-  //------------------------------------------------------------App bar
-  @override
-  Widget build(BuildContext context) {
-    AppBar appBar() {
-      return AppBar(
-        title: GestureDetector(
-          onTap: () {
-            // Navigate to the home page
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-            );
-          },
-          child: const Text(
-            'Petlastaa',
-            style: TextStyle(
-              color: Colors.white, // Customize the text color
-              fontWeight: FontWeight.bold, // Customize the font weight
-            ),
-          ),
-        ),
-        backgroundColor: isSwitched ? const Color.fromARGB(255, 157, 213, 231) : const Color.fromARGB(255, 98, 208, 228),
-        elevation: 10.0,
-        centerTitle: true,
-        actions: [
-          _searchField(),
-          Switch(
-            thumbIcon: WidgetStateProperty.all(
-              isSwitched ? const Icon(Icons. wb_sunny) : const Icon(Icons.  nightlight_round),
-            ),
-            focusColor: const Color.fromARGB(255, 175, 214, 238),
-            activeColor: const Color.fromARGB(255, 68, 172, 241),
-            value: isSwitched,
-            onChanged: (value) {
-              setState(() {
-                isSwitched = !isSwitched;
-                Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
-              });  
-            },
-          ),
-          const BackButton(),
-        ],
-      );
-    }
-    
-    //------------------------------------------------------------Body of Home
-    Column bodyView() {
-      return Column(
-        children: [
-          CandidateInputWidget(),
-          
-          // Footer section
-          const Footer(),
-        ],
-      );
-    }
 
-    return MaterialApp(
-      theme: Provider.of<ThemeProvider>(context).themeData,
-      home: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface, 
-        appBar: appBar(),
-        drawer: const prefix.NavigationDrawer(location: 'Home'),
-        body: bodyView(),
+  Widget _buildFormField(String name, String label, [TextInputType? type]) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15),
+      child: FormBuilderTextField(
+        name: name,
+        decoration: InputDecoration(
+          labelText: label,
+          border: const OutlineInputBorder(),
+        ),
+        keyboardType: type,
+        validator: FormBuilderValidators.required(),
       ),
+    );
+  }
+
+  Widget _buildDescriptionField() {
+    return FormBuilderTextField(
+      name: 'description',
+      decoration: const InputDecoration(
+        labelText: 'Why should we choose you?',
+        border: OutlineInputBorder(),
+        alignLabelWithHint: true,
+      ),
+      maxLines: 4,
+      validator: FormBuilderValidators.required(),
     );
   }
 }

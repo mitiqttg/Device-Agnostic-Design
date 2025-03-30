@@ -35,27 +35,41 @@ class _ManuallyControlledSliderState extends State<ManuallyControlledSlider> {
                 child: Stack(
                   children: <Widget>[
                     Image.network(item, fit: BoxFit.fill),
-                    Positioned(
-                      bottom: 0.0,
-                      left: 0.0,
-                      right: 0.0,
-                      child: Container(
-                        height: widget.selected ? 20.0 : 15,
-                        width: widget.selected ? 30 : 25,
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Color.fromARGB(199, 95, 201, 250),
-                              Color.fromARGB(0, 159, 195, 236)
-                            ],
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                          ),
+                    // Positioned(
+                    //   bottom: 0.0,
+                    //   left: 0.0,
+                    //   right: 0.0,
+                    //   child: Container(
+                    //     height: widget.selected ? 20.0 : 15,
+                    //     width: widget.selected ? 30 : 25,
+                    //     decoration: const BoxDecoration(
+                    //       gradient: LinearGradient(
+                    //         colors: [
+                    //           Color.fromARGB(199, 95, 201, 250),
+                    //           Color.fromARGB(0, 159, 195, 236)
+                    //         ],
+                    //         begin: Alignment.bottomCenter,
+                    //         end: Alignment.topCenter,
+                    //       ),
+                    //     ),
+                    //     padding: const EdgeInsets.symmetric(
+                    //         vertical: 10.0, horizontal: 20.0),
+                    //   ),
+                    // ),
+                        if (widget.selected && widget.imgList.length > 1)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.arrow_back_ios),
+                              onPressed: () => _controller.previousPage(),
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.arrow_forward_ios),
+                              onPressed: () => _controller.nextPage(),
+                            ),
+                          ],
                         ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0),
-                      ),
-                    ),
                   ],
                 )),
           ),

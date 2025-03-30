@@ -34,12 +34,6 @@ Future<void> main() async {
             child: const dona.DonationPage(),
           ),
         ),
-        GetPage(name: "/adopt", page: () => 
-          ChangeNotifierProvider(
-            create: (context) => ThemeProvider(),
-            child: adopt.Adoptform(),
-          ),
-        ),
       ],
     ),
   );

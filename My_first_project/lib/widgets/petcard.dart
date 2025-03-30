@@ -20,7 +20,8 @@ class PetCard extends StatefulWidget {
   final String longDes;
   final bool darkMode;
   final List<String> videos;
-
+  final int petId;
+  
   const PetCard(
       {Key? key,
       required this.name,
@@ -32,6 +33,7 @@ class PetCard extends StatefulWidget {
       required this.longDes, 
       required this.videos, 
       required this.darkMode, 
+      required this.petId,
       }
     ) 
     : super(key: key);
@@ -68,7 +70,7 @@ class _PetCard extends State<PetCard> {
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: SizedBox(
         height: 20,
-        child: Center( child: playerWidget,),
+        child: Center(child: playerWidget,),
       ),
     ));
 
@@ -77,7 +79,7 @@ class _PetCard extends State<PetCard> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.sizeOf(context);
+    final size = MediaQuery.sizeOf(context);
     final double screenWidth = size.width;
     final double screenHeight = size.height;
 
@@ -216,7 +218,14 @@ class _PetCard extends State<PetCard> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             // ... existing buttons with modified padding ...
-            _buildTextButton('Adopt', () { /*...*/ }),
+            _buildTextButton('Adopt', () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => adopt.AdoptForm(petId: widget.petId,
+                ),
+              ));
+            }),
             _buildTextButton('Contact', () {}),
             IconButton(
               icon: Icon(selected ? Icons.expand_less : Icons.expand_more),
