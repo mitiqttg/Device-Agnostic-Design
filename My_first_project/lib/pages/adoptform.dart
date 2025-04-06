@@ -20,10 +20,10 @@ class AdoptForm extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(20),
         constraints: BoxConstraints(
-          minWidth: MediaQuery.of(context).size.width * 0.5,
-          maxWidth: MediaQuery.of(context).size.width * 0.8,
+          minWidth: MediaQuery.of(context).size.width * 0.3,
+          maxWidth: MediaQuery.of(context).size.width * 0.5,
           minHeight: MediaQuery.of(context).size.height * 0.6,
-          maxHeight: MediaQuery.of(context).size.height * 0.9,
+          maxHeight: MediaQuery.of(context).size.height * 0.95,
         ),
         decoration: BoxDecoration(
           color: Colors.white,
