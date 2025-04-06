@@ -120,7 +120,7 @@ class _RescueState extends State<RescuePage> {
             children: [
               PetCard(
                 petId: 1,
-                name: 'Gracie',
+                petName: 'Gracie',
                 images: ['lib/assets/cat0.png'],
                 shortDes: 'Cute and gracious',
                 specie: 'Toyger',
@@ -132,7 +132,7 @@ class _RescueState extends State<RescuePage> {
               SizedBox(height: 8),
               PetCard(
                 petId: 2,
-                name: 'Thomas',
+                petName: 'Thomas',
                 images: ['lib/assets/dog1.png', 'lib/assets/dog3.png', 'lib/assets/dog3.png'],
                 shortDes: "Lorem ipsum dolor sit amet",
                 specie: 'Golden Retriever',
@@ -143,7 +143,7 @@ class _RescueState extends State<RescuePage> {
               SizedBox(height: 8),
               PetCard(
                 petId: 3,
-                name: 'Hope',
+                petName: 'Hope',
                 images: ['../../lib/assets/dog4.png', 'lib/assets/dog1.png',],
                 shortDes: 'Dangerous and gracious',
                 specie: 'OU oha hound',

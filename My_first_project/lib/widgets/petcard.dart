@@ -11,7 +11,7 @@ class Breakpoints {
 }
 
 class PetCard extends StatefulWidget {
-  final String name;
+  final String petName;
   final String? birth;
   final String? favorites;
   final List<String> images;
@@ -24,7 +24,7 @@ class PetCard extends StatefulWidget {
   
   const PetCard(
       {Key? key,
-      required this.name,
+      required this.petName,
       this.birth,
       this.favorites,
       required this.images,
@@ -141,7 +141,7 @@ class _PetCard extends State<PetCard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.name,
+                            widget.petName,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -219,12 +219,19 @@ class _PetCard extends State<PetCard> {
           children: [
             // ... existing buttons with modified padding ...
             _buildTextButton('Adopt', () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => adopt.AdoptForm(petId: widget.petId,
-                ),
-              ));
+              
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => adopt.AdoptForm(petId: widget.petId,
+              //   ),
+              // ));
+
+                  showDialog(
+                      context: context,
+                      barrierColor: Colors.transparent, // Makes background visible
+                      builder: (context) => adopt.AdoptForm(petId: widget.petId, petName: widget.petName),
+                    );
             }),
             _buildTextButton('Contact', () {}),
             IconButton(

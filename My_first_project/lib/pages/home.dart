@@ -124,8 +124,8 @@ class _HomePageState extends State<HomePage> {
       return Column(
         children: [
           // Main content
-          // Expanded(
-          //   child: 
+          Expanded(
+            child: 
           Container(
               color: const Color.fromARGB(255, 210, 216, 243),
               child: const Column(
@@ -138,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                 ]
               ),
             ),
-          // ),
+          ),
           
           // Footer section
           const Footer(),

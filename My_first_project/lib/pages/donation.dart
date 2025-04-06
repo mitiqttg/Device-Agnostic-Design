@@ -3,7 +3,7 @@ import '../widgets/drawer.dart' as prefix;
 import '../widgets/footer.dart' as prefix;
 import '../theme/theme_provider.dart';
 import 'package:provider/provider.dart';
-
+import '../pages/home.dart' as home;
 
 class DonationPage extends StatefulWidget {
   const DonationPage({super.key});
@@ -14,10 +14,68 @@ class DonationPage extends StatefulWidget {
 
 class _DonationState extends State<DonationPage> {
   bool isSwitched = true;
+  final _formKey = GlobalKey<FormState>();
+  final _amountController = TextEditingController();
+  final _messageController = TextEditingController();
+  String _selectedPaymentMethod = 'Credit Card';
+  String _selectedCurrency = 'USD';
+  final List<String> _paymentMethods = ['Credit Card', 'PayPal', 'Bank Transfer'];
+  final List<Map<String, dynamic>> _currencies = [
+    {'code': 'EUR', 'symbol': '€'},
+    {'code': 'USD', 'symbol': '\$'}
+  ];
 
-  //------------------------------------------------------------Search box
+  @override
+  void dispose() {
+    _amountController.dispose();
+    _messageController.dispose();
+    super.dispose();
+  }
+
+  AppBar appBar() {
+      return AppBar(
+        title: GestureDetector(
+          onTap: () {
+            // Navigate to the home page
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const home.HomePage()),
+            );
+          },
+          child: const Text(
+            'Petlastaa',
+            style: TextStyle(
+              color: Colors.white, // Customize the text color
+              fontWeight: FontWeight.bold, // Customize the font weight
+            ),
+          ),
+        ),
+        backgroundColor: isSwitched ? const Color.fromARGB(255, 157, 213, 231) : const Color.fromARGB(255, 98, 208, 228),
+        elevation: 10.0,
+        centerTitle: true,
+        actions: [
+          _searchField(),
+          Switch(
+            thumbIcon: WidgetStateProperty.all(
+              isSwitched ? const Icon(Icons. wb_sunny) : const Icon(Icons.  nightlight_round),
+            ),
+            focusColor: const Color.fromARGB(255, 175, 214, 238),
+            activeColor: const Color.fromARGB(255, 68, 172, 241),
+            value: isSwitched,
+            onChanged: (value) {
+              setState(() {
+                isSwitched = !isSwitched;
+                Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+              });  
+            },
+          ),
+          const BackButton(),
+        ],
+      );
+    }
   Container _searchField() {
     double appBarHeight = AppBar().preferredSize.height;
+    // double appBarWidth = AppBar().preferredSize.width;
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -62,63 +120,210 @@ class _DonationState extends State<DonationPage> {
     );
   }
 
-  //------------------------------------------------------------App bar
+  Widget _buildDonationForm(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(255, 176, 221, 252),
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 2,
+            blurRadius: 7,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Make a Donation',
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    controller: _amountController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: 'Amount',
+                      prefixText: _currencies
+                          .firstWhere((c) => c['code'] == _selectedCurrency)['symbol'],
+                      prefixStyle: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) return 'Please enter an amount';
+                      if (double.tryParse(value) == null) return 'Please enter a valid number';
+                      return null;
+                    },
+                  ),
+                ),
+                const SizedBox(width: 10),
+                DropdownButton<String>(
+                  value: _selectedCurrency,
+                  items: _currencies.map((currency) {
+                    return DropdownMenuItem<String>(
+                      value: currency['code'],
+                      child: Text(currency['code']),
+                    );
+                  }).toList(),
+                  onChanged: (value) => setState(() => _selectedCurrency = value!),
+                ),
+              ],
+            ),
+            const SizedBox(height: 15),
+            Wrap(
+              spacing: 10,
+              children: [10, 20, 50, 100].map((amount) {
+                return ElevatedButton(
+                  onPressed: () {
+                    _amountController.text = amount.toString();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 108, 176, 233),
+                  ),
+                  child: Text(
+                      '${_currencies.firstWhere((c) => c['code'] == _selectedCurrency)['symbol']}$amount'),
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 20),
+            DropdownButtonFormField<String>(
+              value: _selectedPaymentMethod,
+              items: _paymentMethods.map((method) {
+                IconData icon;
+                switch (method) {
+                  case 'Credit Card':
+                    icon = Icons.credit_card;
+                    break;
+                  case 'PayPal':
+                    icon = Icons.paypal;
+                    break;
+                  case 'Bank Transfer':
+                    icon = Icons.account_balance;
+                    break;
+                  default:
+                    icon = Icons.attach_money;
+                }
+                return DropdownMenuItem(
+                  value: method,
+                  child: Row(
+                    children: [
+                      Icon(icon),
+                      const SizedBox(width: 8),
+                      Text(method),
+                    ],
+                  ),
+                );
+              }).toList(),
+              onChanged: (value) => setState(() => _selectedPaymentMethod = value!),
+              decoration: InputDecoration(
+                labelText: 'Payment Method',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            TextFormField(
+              controller: _messageController,
+              maxLines: 4,
+              decoration: InputDecoration(
+                labelText: 'Leave your message here (optional)',
+                alignLabelWithHint: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                hintText: 'Message ...',
+              ),
+            ),
+            const SizedBox(height: 25),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('Thank You!'),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Thank you for your donation!',
+                            ),
+                            if (_messageController.text.isNotEmpty)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: Text(
+                                  'Your message: ${_messageController.text}',
+                                  style: TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    color: Colors.grey[600],
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text('Close'),
+                          ),
+                        ],
+                      ),
+                    );
+                    _formKey.currentState!.reset();
+                    _messageController.clear();
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                ),
+                child: const Text('Donate', style: TextStyle(fontSize: 18)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    AppBar appBar() {
-      return AppBar(
-        title: Text(
-          'Petlastaa',
-          style: TextStyle(
-            color: isSwitched ? const Color.fromARGB(255, 255, 0, 153) : Color.fromARGB(255, 241, 119, 212),
-            fontSize: 20,
-            fontWeight: FontWeight.bold
-          ),
-        ),
-        backgroundColor: isSwitched ? const Color.fromARGB(255, 157, 213, 231) : const Color.fromARGB(255, 98, 208, 228),
-        elevation: 10.0,
-        centerTitle: true,
-        actions: [
-          _searchField(),
-          Switch(
-            thumbIcon: WidgetStateProperty.all(
-              isSwitched ? const Icon(Icons. wb_sunny) : const Icon(Icons.  nightlight_round),
-            ),
-            focusColor: const Color.fromARGB(255, 175, 214, 238),
-            activeColor: const Color.fromARGB(255, 68, 172, 241),
-            value: isSwitched,
-            onChanged: (value) {
-              setState(() {
-                isSwitched = !isSwitched;
-                Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
-              });  
-            },
-          ),
-          const BackButton(),
-        ],
-      );
-    }
-    
-    //------------------------------------------------------------Body of Home
-    Column bodyView() {
-      return const Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      appBar: appBar(),
+      drawer: const prefix.NavigationDrawer(location: 'Donation'),
+      body: Column(
         children: [
-          // -------------------Footer section
-          prefix.Footer(),
+          Expanded(
+            child: SingleChildScrollView(
+              child: _buildDonationForm(context),
+            ),
+          ),
+          const prefix.Footer(),
         ],
-      );
-    }
-
-    return MaterialApp(
-      theme: Provider.of<ThemeProvider>(context).themeData,
-      home: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface, 
-        appBar: appBar(),
-        drawer: const prefix.NavigationDrawer(location: 'Donation',),
-        body: SingleChildScrollView(
-          child: bodyView(),
-        )
       ),
     );
   }

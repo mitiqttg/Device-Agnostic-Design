@@ -27,6 +27,7 @@ dependencies:
   form_builder_validators: ^11.0.0
   carousel_slider: ^5.0.0
   chewie: ^1.10.0
+  intl: 0.19.0
 
 dev_dependencies:
   flutter_test:
