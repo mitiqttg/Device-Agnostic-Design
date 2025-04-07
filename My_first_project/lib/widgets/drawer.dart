@@ -42,12 +42,26 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
         onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()))
       ),
       
-      // Section header (same size as Home)
+      // Rescue (main item)
       ListTile(
+        leading: const Icon(Icons.pets),
+        title: const Text('Rescue', style: TextStyle(fontSize: 16)),
+        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const RescuePage())),
+      ),
+
+      ListTile(
+        leading: const Icon(Icons.arrow_circle_right),
+        title: const Text('Rehome', style: TextStyle(fontSize: 16)),
+        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const RescuePage())),
+      ),
+      
+            // Section header (same size as Home)
+      ListTile(
+        leading: const Icon(Icons.handshake, size: 20),
         title: Text('How you can help'),
         onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const how.HowToHelpPage()))
       ),
-      
+
       // Donation (sub-item)
       ListTile(
         leading: const Icon(Icons.handshake, size: 20), // Slightly smaller icon
@@ -63,19 +77,6 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
         contentPadding: const EdgeInsets.only(left: 40),
         onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const VolunteeringPage())),
       ),
-      
-      // Rescue (main item)
-      ListTile(
-        leading: const Icon(Icons.pets),
-        title: const Text('Rescue', style: TextStyle(fontSize: 16)),
-        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const RescuePage())),
-      ),
-      ListTile(
-        leading: const Icon(Icons.pets),
-        title: const Text('Rehome', style: TextStyle(fontSize: 16)),
-        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const RescuePage())),
-      ),
-      
       
     ],
   ),
