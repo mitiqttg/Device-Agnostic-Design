@@ -3,6 +3,7 @@ import '../widgets/drawer.dart' as prefix;
 import '../widgets/footer.dart';
 import '../theme/theme_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class Breakpoints {
   static const sm = 640;
@@ -34,9 +35,8 @@ class _HomePageState extends State<HomePage> {
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10),
-      height: appBarHeight / 2, 
-      width: appBarHeight * 4 ,
-
+      height: appBarHeight / 2,
+      width: appBarHeight * 4,
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -74,6 +74,7 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
   //------------------------------------------------------------App bar
   @override
   Widget build(BuildContext context) {
@@ -102,7 +103,7 @@ class _HomePageState extends State<HomePage> {
           _searchField(),
           Switch(
             thumbIcon: WidgetStateProperty.all(
-              isSwitched ? const Icon(Icons. wb_sunny) : const Icon(Icons.  nightlight_round),
+              isSwitched ? const Icon(Icons.wb_sunny) : const Icon(Icons.nightlight_round),
             ),
             focusColor: const Color.fromARGB(255, 175, 214, 238),
             activeColor: const Color.fromARGB(255, 68, 172, 241),
@@ -111,48 +112,124 @@ class _HomePageState extends State<HomePage> {
               setState(() {
                 isSwitched = !isSwitched;
                 Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
-              });  
+              });
             },
           ),
           const BackButton(),
         ],
       );
     }
-    
+
     //--------------------------Body of Home----------------------------------
-    Column bodyView() {
-      return Column(
-        children: [
-          // Main content
-          Expanded(
-            child: 
-          Container(
-              color: const Color.fromARGB(255, 210, 216, 243),
-              child: const Column(
-                children: [
-                  Row(
+
+    final List<String> petImages = [
+      'lib/assets/stray-dog-1.jpg', // Replace with your actual image paths
+      'lib/assets/stray-dog-2.jpg',
+      'lib/assets/stray-cat-1.jpg',
+      'lib/assets/stray-cat-2.jpg',
+      // Add more image paths as needed
+    ];
+
+    Widget _bodyView(BuildContext context) {
+      final screenHeight = MediaQuery.of(context).size.height;
+      final screenWidth = MediaQuery.of(context).size.width;
+
+      return SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Stack(
+              children: [
+                // Full-screen image
+                Image.asset(
+                  'lib/assets/mainpage-hug.jpg',
+                  width: double.infinity,
+                  height: screenHeight, // Adjust the height as needed
+                  fit: BoxFit.cover,
+                ),
+                // Left-side description and button
+                Positioned(
+                  left: 16.0, // Added left alignment
+                  top: screenHeight * 0.6 / 2 - 50, // Vertically center (approx.)
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start, // Align text and button to the left
                     children: [
-                      Text('Main content goes here!', style: TextStyle(fontSize: 24),),
+                      const Text(
+                        "Let's take part in helping our friends",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 247, 157, 235), // Adjust text color
+                        ),
+                      ),
+                      const SizedBox(height: 16.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          print("About us button pressed");
+                        },
+                        child: const Text("About us"),
+                      ),
                     ],
-                  )
-                ]
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  const SizedBox(height: 24.0),
+                  const Text(
+                    "Providing abandoned pets with the opportunity for a new life and securing homes are our mission. We also shelter pets that owners have giving. This has brought us significant joy, love, and a sense of purpose through our commitment to caring for homeless animals.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 16.0),
+                  ),
+                  const SizedBox(height: 24.0),
+                  CarouselSlider(
+                    options: CarouselOptions(
+                      autoPlay: true,
+                      enlargeCenterPage: true,
+                      aspectRatio: 16 / 9,
+                      viewportFraction: 0.8,
+                      autoPlayInterval: const Duration(seconds: 3),
+                      autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                      enableInfiniteScroll: true,
+                    ),
+                    items: petImages.map((imagePath) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200], // Optional background color
+                            ),
+                            child: Image.asset(
+                              imagePath,
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        },
+                      );
+                    }).toList(),
+                  ),
+                ],
               ),
             ),
-          ),
-          
-          // Footer section
-          const Footer(),
-        ],
+            const Footer(), // Keep the Footer here
+          ],
+        ),
       );
     }
 
     return MaterialApp(
       theme: Provider.of<ThemeProvider>(context).themeData,
       home: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface, 
+        backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: appBar(),
         drawer: const prefix.NavigationDrawer(location: 'Home'),
-        body: bodyView(),
+        body: _bodyView(context), // Use the new _bodyView
       ),
     );
   }
