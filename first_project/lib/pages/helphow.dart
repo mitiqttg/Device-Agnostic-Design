@@ -4,6 +4,7 @@ import '../widgets/footer.dart';
 import '../theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 import '../pages/home.dart';
+import '../widgets/appbar.dart';
 
 class Breakpoints {
   static const sm = 640;
@@ -259,8 +260,13 @@ class _HowToHelpPageState extends State<HowToHelpPage> {
       theme: Provider.of<ThemeProvider>(context).themeData,
       home: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface, 
-        appBar: appBar(),
-        drawer: const prefix.NavigationDrawer(location: 'Home'),
+        appBar: CustomAppBar(
+          onTitleTapped: () {
+            // Add navigation logic if needed
+            Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+          },
+        ),
+        drawer: const prefix.NavigationDrawer(location: 'How to help'),
         body: bodyView(),
       ),
     );

@@ -4,6 +4,7 @@ import '../widgets/footer.dart';
 import '../theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import '../widgets/appbar.dart';
 
 class Breakpoints {
   static const sm = 640;
@@ -78,47 +79,6 @@ class _HomePageState extends State<HomePage> {
   //------------------------------------------------------------App bar
   @override
   Widget build(BuildContext context) {
-    AppBar appBar() {
-      return AppBar(
-        title: GestureDetector(
-          onTap: () {
-            // Navigate to the home page
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-            );
-          },
-          child: const Text(
-            'Petlastaa',
-            style: TextStyle(
-              color: Colors.white, // Customize the text color
-              fontWeight: FontWeight.bold, // Customize the font weight
-            ),
-          ),
-        ),
-        backgroundColor: isSwitched ? const Color.fromARGB(255, 157, 213, 231) : const Color.fromARGB(255, 98, 208, 228),
-        elevation: 10.0,
-        centerTitle: true,
-        actions: [
-          _searchField(),
-          Switch(
-            thumbIcon: WidgetStateProperty.all(
-              isSwitched ? const Icon(Icons.wb_sunny) : const Icon(Icons.nightlight_round),
-            ),
-            focusColor: const Color.fromARGB(255, 175, 214, 238),
-            activeColor: const Color.fromARGB(255, 68, 172, 241),
-            value: isSwitched,
-            onChanged: (value) {
-              setState(() {
-                isSwitched = !isSwitched;
-                Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
-              });
-            },
-          ),
-          const BackButton(),
-        ],
-      );
-    }
 
     //--------------------------Body of Home----------------------------------
 
@@ -157,9 +117,9 @@ class _HomePageState extends State<HomePage> {
                       const Text(
                         "Let's take part in helping our friends",
                         style: TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 28.0,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 247, 157, 235), // Adjust text color
+                          color: Color.fromARGB(255, 84, 196, 230) // Adjust text color
                         ),
                       ),
                       const SizedBox(height: 16.0),
@@ -167,7 +127,14 @@ class _HomePageState extends State<HomePage> {
                         onPressed: () {
                           print("About us button pressed");
                         },
-                        child: const Text("About us"),
+                        child: const Text(
+                        "About us",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 152, 222, 243), // Adjust text color
+                        ),
+                      ),
                       ),
                     ],
                   ),
@@ -179,10 +146,14 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 children: [
                   const SizedBox(height: 24.0),
-                  const Text(
+                  Text(
                     "Providing abandoned pets with the opportunity for a new life and securing homes are our mission. We also shelter pets that owners have giving. This has brought us significant joy, love, and a sense of purpose through our commitment to caring for homeless animals.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16.0),
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.normal,
+                          color: Theme.of(context).colorScheme.onSecondaryContainer, // Adjust text color
+                        ),
                   ),
                   const SizedBox(height: 24.0),
                   CarouselSlider(
@@ -226,8 +197,8 @@ class _HomePageState extends State<HomePage> {
     return MaterialApp(
       theme: Provider.of<ThemeProvider>(context).themeData,
       home: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        appBar: appBar(),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        appBar: CustomAppBar(),
         drawer: const prefix.NavigationDrawer(location: 'Home'),
         body: _bodyView(context), // Use the new _bodyView
       ),

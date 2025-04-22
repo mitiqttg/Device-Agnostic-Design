@@ -4,6 +4,7 @@ import '../widgets/footer.dart';
 import '../theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 import '../pages/home.dart';
+import '../widgets/appbar.dart';
 
 class Breakpoints {
   static const sm = 640;
@@ -77,47 +78,6 @@ class _VolunteeringPageState extends State<VolunteeringPage> {
   //------------------------------------------------------------App bar
   @override
   Widget build(BuildContext context) {
-    AppBar appBar() {
-      return AppBar(
-        title: GestureDetector(
-          onTap: () {
-            // Navigate to the home page
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-            );
-          },
-          child: const Text(
-            'Petlastaa',
-            style: TextStyle(
-              color: Colors.white, // Customize the text color
-              fontWeight: FontWeight.bold, // Customize the font weight
-            ),
-          ),
-        ),
-        backgroundColor: isSwitched ? const Color.fromARGB(255, 157, 213, 231) : const Color.fromARGB(255, 98, 208, 228),
-        elevation: 10.0,
-        centerTitle: true,
-        actions: [
-          _searchField(),
-          Switch(
-            thumbIcon: WidgetStateProperty.all(
-              isSwitched ? const Icon(Icons. wb_sunny) : const Icon(Icons.  nightlight_round),
-            ),
-            focusColor: const Color.fromARGB(255, 175, 214, 238),
-            activeColor: const Color.fromARGB(255, 68, 172, 241),
-            value: isSwitched,
-            onChanged: (value) {
-              setState(() {
-                isSwitched = !isSwitched;
-                Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
-              });  
-            },
-          ),
-          const BackButton(),
-        ],
-      );
-    }
     
     //--------------------------Body of Home----------------------------------
     Column bodyView() {
@@ -150,8 +110,13 @@ class _VolunteeringPageState extends State<VolunteeringPage> {
       theme: Provider.of<ThemeProvider>(context).themeData,
       home: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface, 
-        appBar: appBar(),
-        drawer: const prefix.NavigationDrawer(location: 'Home'),
+        appBar: CustomAppBar(
+          onTitleTapped: () {
+            // Add navigation logic if needed
+            Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+          },
+        ),
+        drawer: const prefix.NavigationDrawer(location: 'Volunteer'),
         body: bodyView(),
       ),
     );

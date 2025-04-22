@@ -12,30 +12,23 @@ Future<void> main() async {
   await Hive.initFlutter();
   await Hive.openBox("storage");
   Get.lazyPut<adopt.CandidateController>(() => adopt.CandidateController());
+  
   runApp(
-    GetMaterialApp(
-      initialRoute: "/",
-      getPages: [
-        GetPage(name: "/", page: () =>
-          ChangeNotifierProvider(
-            create: (context) => ThemeProvider(),
-            child: const home.HomePage(),
-          ),
-        ),
-        GetPage(name: "/rescue", page: () => 
-          ChangeNotifierProvider(
-            create: (context) => ThemeProvider(),
-            child: const resq.RescuePage(),
-          ),
-        ),
-        GetPage(name: "/donate", page: () =>
-          ChangeNotifierProvider(
-            create: (context) => ThemeProvider(),
-            child: const dona.DonationPage(),
-          ),
-        ),
-      ],
+    ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, child) {
+          return GetMaterialApp(
+            theme: themeProvider.themeData,
+            initialRoute: "/",
+            getPages: [
+              GetPage(name: "/", page: () => const home.HomePage()),
+              GetPage(name: "/rescue", page: () => const resq.RescuePage()),
+              GetPage(name: "/donate", page: () => const dona.DonationPage()),
+            ],
+          );
+        },
+      ),
     ),
   );
 }
-

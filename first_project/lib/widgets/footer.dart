@@ -10,7 +10,7 @@ class Footer extends StatelessWidget {
       child: Container(
             // color: Theme.of(context).colorScheme.primary,
             decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 43, 41, 41),
+              color: Color.fromARGB(255, 12, 12, 49),
             ),
             // color: Theme.of(context).scaffoldBackgroundColor,
             padding: const EdgeInsets.all(10),
@@ -39,7 +39,7 @@ class Footer extends StatelessWidget {
                                 ),
                                 child: IconButton(
                                   icon: const Icon(FontAwesomeIcons.instagram,size: 20.0,),
-                                  color: const Color.fromARGB(255, 252, 142, 208),
+                                  color: Theme.of(context).colorScheme.onSecondary,
                                   onPressed: () {},
                                 ),
                               ),
@@ -56,7 +56,7 @@ class Footer extends StatelessWidget {
                                 ),
                                 child: IconButton(
                                   icon: const Icon(FontAwesomeIcons.facebook,size: 20.0,),
-                                  color: const Color.fromARGB(255, 252, 142, 208),
+                                  color: Theme.of(context).colorScheme.onSecondary,
                                   onPressed: () {},
                                 ),
                               ),
@@ -73,7 +73,7 @@ class Footer extends StatelessWidget {
                                 ),
                                 child: IconButton(
                                   icon: const Icon(FontAwesomeIcons.pinterest,size: 20.0,),
-                                  color: const Color.fromARGB(255, 252, 142, 208),
+                                  color: Theme.of(context).colorScheme.onSecondary,
                                   onPressed: () {},
                                 ),
                               ),
@@ -90,7 +90,7 @@ class Footer extends StatelessWidget {
                                 ),
                                 child: IconButton(
                                   icon: const Icon(FontAwesomeIcons.paypal,size: 20.0,),
-                                  color: const Color.fromARGB(255, 252, 142, 208),
+                                  color: Theme.of(context).colorScheme.onSecondary,
                                   onPressed: () {},
                                 ),
                               ),
@@ -98,8 +98,8 @@ class Footer extends StatelessWidget {
                           ),
                         ]
                       ),),
-                      const Text('Copyright ©2024, All Rights Reserved.',style: TextStyle(fontWeight:FontWeight.w300, fontSize: 12.0, color:  Color.fromARGB(255, 252, 142, 208)),),
-                      const Text('Made with ❤ ️by Tien Tran',style: TextStyle(fontWeight:FontWeight.w300, fontSize: 12.0,color:  Color.fromARGB(255, 252, 142, 208)),),
+                      const Text('Copyright ©2025, All Rights Reserved.',style: TextStyle(fontWeight:FontWeight.w300, fontSize: 12.0, color:  Color.fromARGB(255, 252, 142, 208)),),
+                      const Text('Made ️by Tien Tran',style: TextStyle(fontWeight:FontWeight.w300, fontSize: 12.0,color:  Color.fromARGB(255, 252, 142, 208)),),
                     ]
                   ),    
                 )

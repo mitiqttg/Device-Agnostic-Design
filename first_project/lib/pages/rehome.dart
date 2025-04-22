@@ -6,6 +6,7 @@ import '../widgets/drawer.dart' as prefix;
 import '../widgets/footer.dart' as prefix;
 import '../theme/theme_provider.dart';
 import 'package:provider/provider.dart';
+import '../widgets/appbar.dart';
 
 
 class RescuePage extends StatefulWidget {
@@ -68,46 +69,6 @@ class _RescueState extends State<RescuePage> {
   //------------------------------------------------------------App bar
   @override
   Widget build(BuildContext context) {
-    AppBar appBar() {
-      return AppBar(
-        title: GestureDetector(
-          onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const HomePage()),
-              );
-          },
-          child: const Text(
-            'Petlastaa',
-            style: TextStyle(
-              color: Colors.white, // Customize the text color
-              fontWeight: FontWeight.bold, // Customize the font weight
-            ),
-          ),
-        ),
-        backgroundColor: isSwitched ? const Color.fromARGB(222, 205, 226, 248) : const Color.fromARGB(255, 98, 208, 228),
-        elevation: 10.0,
-        centerTitle: true,
-        actions: [
-          _searchField(),
-          Switch(
-            thumbIcon: WidgetStateProperty.all(
-              isSwitched ? const Icon(Icons. wb_sunny) : const Icon(Icons.  nightlight_round),
-            ),
-            focusColor: const Color.fromARGB(255, 175, 214, 238),
-            activeColor: const Color.fromARGB(255, 68, 172, 241),
-            value: isSwitched,
-            onChanged: (value) {
-              setState(() {
-                isSwitched = !isSwitched;
-                Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
-              });  
-            },
-          ),
-          const BackButton(),
-        ],
-      );
-    }
     
     //------------------------------------------------------------Body of Home
     Column bodyView() {
@@ -127,7 +88,6 @@ class _RescueState extends State<RescuePage> {
                 videos: ['https://youtube.com/watch?v=iq8Mllwz5no'],
                 longDes: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever ince the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five enturies, but also the leap into electronic typesetting",
                 favorites: 'tell you so much',
-                darkMode: isSwitched,
               ),
               SizedBox(height: 8),
               PetCard(
@@ -138,7 +98,6 @@ class _RescueState extends State<RescuePage> {
                 specie: 'Golden Retriever',
                 videos: ['https://youtube.com/watch?v=iq8Mllwz5no'],
                 longDes: 'i love you so much  consectetur adipiscing elit. Vivamus luctus urna sed urna.',
-                darkMode: isSwitched,
               ),
               SizedBox(height: 8),
               PetCard(
@@ -151,7 +110,6 @@ class _RescueState extends State<RescuePage> {
                 longDes: 'i love you so much i hope you well and all the best from the bottom of my heart',
                 birth: '2021-09-01',
                 favorites: 'cookies and peekaboo',
-                darkMode: isSwitched,
               ),
             ],
           ),
@@ -165,8 +123,13 @@ class _RescueState extends State<RescuePage> {
       theme: Provider.of<ThemeProvider>(context).themeData,
       home: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface, 
-        appBar: appBar(),
-        drawer: const prefix.NavigationDrawer(location: 'Rescue page',),
+        appBar: CustomAppBar(
+          onTitleTapped: () {
+            // Add navigation logic if needed
+            Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+          },
+        ),
+        drawer: const prefix.NavigationDrawer(location: 'Rehome',),
         body: SingleChildScrollView(
           child: bodyView(),
         )

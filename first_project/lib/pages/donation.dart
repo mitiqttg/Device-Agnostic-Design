@@ -4,6 +4,7 @@ import '../widgets/footer.dart' as prefix;
 import '../theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 import '../pages/home.dart' as home;
+import '../widgets/appbar.dart';
 
 class DonationPage extends StatefulWidget {
   const DonationPage({super.key});
@@ -32,47 +33,6 @@ class _DonationState extends State<DonationPage> {
     super.dispose();
   }
 
-  AppBar appBar() {
-      return AppBar(
-        title: GestureDetector(
-          onTap: () {
-            // Navigate to the home page
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const home.HomePage()),
-            );
-          },
-          child: const Text(
-            'Petlastaa',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        backgroundColor: isSwitched ? const Color.fromARGB(255, 157, 213, 231) : const Color.fromARGB(255, 98, 208, 228),
-        elevation: 10.0,
-        centerTitle: true,
-        actions: [
-          _searchField(),
-          Switch(
-            thumbIcon: WidgetStateProperty.all(
-              isSwitched ? const Icon(Icons. wb_sunny) : const Icon(Icons.  nightlight_round),
-            ),
-            focusColor: const Color.fromARGB(255, 175, 214, 238),
-            activeColor: const Color.fromARGB(255, 68, 172, 241),
-            value: isSwitched,
-            onChanged: (value) {
-              setState(() {
-                isSwitched = !isSwitched;
-                Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
-              });  
-            },
-          ),
-          const BackButton(),
-        ],
-      );
-    }
   Container _searchField() {
     double appBarHeight = AppBar().preferredSize.height;
     // double appBarWidth = AppBar().preferredSize.width;
@@ -313,7 +273,12 @@ class _DonationState extends State<DonationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: appBar(),
+      appBar: CustomAppBar(
+        onTitleTapped: () {
+          // Add navigation logic if needed
+          Navigator.push(context, MaterialPageRoute(builder: (context) => home.HomePage()));
+        },
+      ),
       drawer: const prefix.NavigationDrawer(location: 'Donation'),
       body: Column(
         children: [

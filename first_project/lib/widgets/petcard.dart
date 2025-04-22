@@ -16,10 +16,9 @@ class PetCard extends StatefulWidget {
   final String? birth;
   final String? favorites;
   final List<String> images;
-  final String shortDes;
+  final String shortDes; 
   final String specie;
   final String longDes;
-  final bool darkMode;
   final List<String> videos;
   final int petId;
 
@@ -33,7 +32,6 @@ class PetCard extends StatefulWidget {
     required this.specie,
     required this.longDes,
     required this.videos,
-    required this.darkMode,
     required this.petId,
   }) : super(key: key);
 
@@ -46,7 +44,7 @@ class _PetCard extends State<PetCard> {
   final CarouselSliderController _infoController = CarouselSliderController();
 
   List<Widget> _buildInfoSlides(double cardWidth) {
-    final textColor = widget.darkMode ? Colors.black : Colors.white;
+    final textColor = Theme.of(context).colorScheme.onError; 
     final fullText = '${widget.specie}\n${widget.shortDes}${selected ? '\n${widget.longDes}' : ''}';
     const int maxLength = 300;
     List<String> parts = [];
@@ -64,12 +62,10 @@ class _PetCard extends State<PetCard> {
     }
 
     return parts.map((part) => Container(
-          width: cardWidth, // Match full PetCard width
+          width: cardWidth,
           padding: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(
-            color: widget.darkMode
-                ? Colors.white.withOpacity(0.2)
-                : Colors.black.withOpacity(0.2),
+            color: Theme.of(context).colorScheme.onSecondaryContainer, 
             borderRadius: BorderRadius.circular(15.0),
           ),
           child: Text(
@@ -108,13 +104,7 @@ class _PetCard extends State<PetCard> {
           decoration: BoxDecoration(
             border: Border.all(width: 1),
             borderRadius: BorderRadius.circular(20),
-            color: widget.darkMode
-                ? selected
-                    ? const Color.fromARGB(222, 219, 228, 254)
-                    : const Color.fromARGB(222, 205, 226, 248)
-                : selected
-                    ? const Color.fromARGB(222, 29, 46, 91)
-                    : const Color.fromARGB(222, 52, 40, 112),
+            color: Theme.of(context).colorScheme.onPrimaryContainer, 
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -138,7 +128,7 @@ class _PetCard extends State<PetCard> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: widget.darkMode ? Colors.black : Colors.white,
+                      color: Theme.of(context).colorScheme.onSurface, 
                     ),
                   ),
                   if (widget.birth != null)
@@ -146,16 +136,18 @@ class _PetCard extends State<PetCard> {
                       widget.birth!,
                       style: TextStyle(
                         fontSize: 14,
-                        color: widget.darkMode ? Colors.black.withOpacity(0.7) : Colors.white.withOpacity(0.7),
+                        color: Colors.black.withOpacity(0.7),
                       ),
                     ),
                 ],
               ),
-              const SizedBox(height: 8),
-              Expanded(
-                child: _buildInfoSection(cardWidth),
-              ),
-              const SizedBox(height: 8),
+              if (selected) ...[
+                const SizedBox(height: 8),
+                Expanded(
+                  child: _buildInfoSection(cardWidth),
+                ),
+                const SizedBox(height: 8),
+              ],
               _buildButtonRow(cardWidth),
             ],
           ),
@@ -165,7 +157,7 @@ class _PetCard extends State<PetCard> {
   }
 
   Widget _buildInfoSection(double cardWidth) {
-    final textColor = widget.darkMode ? Colors.black : Colors.white;
+    final textColor = Theme.of(context).colorScheme.onSurface;
     final infoSlides = _buildInfoSlides(cardWidth);
 
     if (infoSlides.length <= 1) {
@@ -173,9 +165,7 @@ class _PetCard extends State<PetCard> {
         width: cardWidth,
         padding: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
-          color: widget.darkMode
-              ? Colors.white.withOpacity(0.2)
-              : Colors.black.withOpacity(0.2),
+          color: Theme.of(context).colorScheme.onError, 
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: SingleChildScrollView(
@@ -222,14 +212,14 @@ class _PetCard extends State<PetCard> {
         Positioned(
           left: 10,
           child: IconButton(
-            icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 24),
+            icon: const Icon(Icons.arrow_back_ios, color: Color.fromARGB(255, 0, 0, 0), size: 24),
             onPressed: () => _infoController.previousPage(),
           ),
         ),
         Positioned(
           right: 10,
           child: IconButton(
-            icon: const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 24),
+            icon: const Icon(Icons.arrow_forward_ios, color: Color.fromARGB(255, 0, 0, 0), size: 24),
             onPressed: () => _infoController.nextPage(),
           ),
         ),
@@ -259,7 +249,7 @@ class _PetCard extends State<PetCard> {
           _buildTextButton('Contact', () {}),
           IconButton(
             icon: Icon(selected ? Icons.expand_less : Icons.expand_more),
-            color: widget.darkMode ? Colors.black : Colors.white,
+            color: Theme.of(context).colorScheme.surface, 
             onPressed: () => setState(() => selected = !selected),
           ),
         ],
@@ -273,9 +263,7 @@ class _PetCard extends State<PetCard> {
       child: TextButton(
         style: TextButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          backgroundColor: widget.darkMode
-              ? Colors.white.withOpacity(0.1)
-              : Colors.black.withOpacity(0.1),
+          backgroundColor: Theme.of(context).colorScheme.surface, 
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -285,7 +273,7 @@ class _PetCard extends State<PetCard> {
           text,
           style: TextStyle(
             fontSize: 14,
-            color: widget.darkMode ? Colors.black : Colors.white,
+            color: Theme.of(context).colorScheme.surface, 
           ),
         ),
       ),
