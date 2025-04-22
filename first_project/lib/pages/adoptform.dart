@@ -16,17 +16,17 @@ class AdoptForm extends StatelessWidget {
     final candidateController = Get.find<CandidateController>();
 
     return Dialog(
-      backgroundColor: Colors.transparent,
+      backgroundColor: const Color.fromARGB(255, 135, 172, 228),
       child: Container(
         padding: const EdgeInsets.all(20),
         constraints: BoxConstraints(
-          minWidth: MediaQuery.of(context).size.width * 0.3,
-          maxWidth: MediaQuery.of(context).size.width * 0.5,
+          minWidth: MediaQuery.of(context).size.width * 0.5,
+          maxWidth: MediaQuery.of(context).size.width * 0.7,
           minHeight: MediaQuery.of(context).size.height * 0.6,
           maxHeight: MediaQuery.of(context).size.height * 0.95,
         ),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.onSecondaryContainer,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Column(
@@ -35,9 +35,15 @@ class AdoptForm extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Adoption Application for $petName',
-                  style: Theme.of(context).textTheme.headlineSmall,
+                Expanded(
+                  child: Text(
+                    'Adoption Application for $petName',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      color: const Color.fromARGB(255, 135, 172, 228),
+                    ),
+                  ),
                 ),
                 IconButton(
                   icon: const Icon(Icons.close),
@@ -72,7 +78,10 @@ class AdoptForm extends StatelessWidget {
           const Divider(),
           const Text(
             'Your Pending Applications:',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: const Color.fromARGB(255, 135, 172, 228),
+              ),
           ),
           const SizedBox(height: 10),
           if (controller.getApplicationsForPet(petId).isEmpty)
@@ -96,13 +105,24 @@ class AdoptForm extends StatelessWidget {
         children: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.red, 
+              ),
+            ),
           ),
           const SizedBox(width: 10),
           ElevatedButton(
             onPressed: () => _submitForm(context),
-            child: const Text('Submit Application'),
-          ),
+            child: const Text(
+              'Submit Application',
+              style: TextStyle(
+                fontSize: 14,
+                color: Color.fromARGB(255, 9, 68, 196), 
+              ),
+            ),          ),
         ],
       ),
     );
@@ -130,7 +150,7 @@ class AdoptForm extends StatelessWidget {
 
       controller.add(candidate);
       CandidateInputWidget._formKey.currentState!.reset();
-      Navigator.pop(context); // Auto-close the dialog after submission
+      Navigator.pop(context);
     }
   }
 }
@@ -261,8 +281,14 @@ class CandidateListWidget extends StatelessWidget {
       return candidates.isEmpty
           ? const Padding(
               padding: EdgeInsets.all(20),
-              child: Text('No applications yet'),
-            )
+              child: const Text(
+              'No applications yet',
+              style: TextStyle(
+                fontSize: 14,
+                color: Color.fromARGB(255, 139, 175, 241), 
+              ),
+            ),
+          )
           : ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -331,7 +357,7 @@ class CandidateInputWidget extends StatelessWidget {
     return FormBuilderTextField(
       name: 'description',
       decoration: const InputDecoration(
-        labelText: 'Tell us something else, about yourself, your pets, hobbies, ...',
+        labelText: 'Tell us something about yourself, your pets, hobbies, ...',
         border: OutlineInputBorder(),
         alignLabelWithHint: true,
       ),

@@ -108,6 +108,18 @@ class _RescueState extends State<RescuePage> {
                 birth: '2021-09-01',
                 favorites: 'cookies and peekaboo',
               ),
+              SizedBox(height: 8),
+              PetCard(
+                petId: 3,
+                petName: 'Mandalorian',
+                images: ['../../lib/assets/manda.png', 'lib/assets/manda1.png',],
+                shortDes: 'Dangerous bounty hunter',
+                specie: 'Mandalorian',
+                videos: ['https://youtube.com/watch?v=iq8Mllwz5no', 'https://youtube.com/watch?v=iq8Mllwz5no'],
+                longDes: 'mandalorian is a bounty hunter who is on a mission to find the child',
+                birth: '2021-09-01',
+                favorites: 'gun and mask',
+              ),
             ],
           ),
           // -------------------Footer section

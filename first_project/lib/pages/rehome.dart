@@ -1,5 +1,4 @@
 import '../pages/home.dart';
-
 import '../widgets/petcard.dart';
 import 'package:flutter/material.dart';
 import '../widgets/drawer.dart' as prefix;
@@ -9,16 +8,14 @@ import 'package:provider/provider.dart';
 import '../widgets/appbar.dart';
 
 
-class RescuePage extends StatefulWidget {
-  const RescuePage({super.key});
+class RehomePage extends StatefulWidget {
+  const RehomePage({super.key});
 
   @override
-  State<RescuePage> createState() => _RescueState();
+  State<RehomePage> createState() => _RehomeState();
 }
 
-class _RescueState extends State<RescuePage> {
-  bool isSwitched = true;
-
+class _RehomeState extends State<RehomePage> {
   //-----------------------------------Search box---------------------------------
   Container _searchField() {
     double appBarHeight = AppBar().preferredSize.height;
@@ -72,7 +69,7 @@ class _RescueState extends State<RescuePage> {
     
     //------------------------------------------------------------Body of Home
     Column bodyView() {
-      return Column(
+      return const Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Wrap(
@@ -110,6 +107,18 @@ class _RescueState extends State<RescuePage> {
                 longDes: 'i love you so much i hope you well and all the best from the bottom of my heart',
                 birth: '2021-09-01',
                 favorites: 'cookies and peekaboo',
+              ),
+              SizedBox(height: 8),
+              PetCard(
+                petId: 3,
+                petName: 'Mandalorian',
+                images: ['../../lib/assets/manda.png', 'lib/assets/manda1.png',],
+                shortDes: 'Dangerous bounty hunter',
+                specie: 'Mandalorian',
+                videos: ['https://youtube.com/watch?v=iq8Mllwz5no', 'https://youtube.com/watch?v=iq8Mllwz5no'],
+                longDes: 'mandalorian is a bounty hunter who is on a mission to find the child',
+                birth: '2021-09-01',
+                favorites: 'gun and mask',
               ),
             ],
           ),

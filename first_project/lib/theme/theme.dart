@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 final lightMode = ThemeData(
   textTheme: GoogleFonts.actorTextTheme(),
   colorScheme: const ColorScheme(
-    
+    tertiary: Color.fromARGB(255, 0, 0, 0),
     brightness: Brightness.light,
     primary:  Color.fromARGB(255, 185, 208, 241),
     onPrimary:  Color.fromARGB(255, 0, 0, 0),
@@ -14,7 +14,7 @@ final lightMode = ThemeData(
     onSurface:  Color.fromARGB(255, 0, 0, 0),
     onPrimaryContainer:  Color.fromARGB(255, 82, 139, 224),
     secondaryContainer:  Color.fromARGB(255, 0, 0, 0),
-    onSecondaryContainer:  Color.fromARGB(255, 0, 0, 0),
+    onSecondaryContainer:  Color.fromARGB(255, 255, 255, 255),
     error:  Color.fromARGB(255, 243, 130, 111),
     onError: Colors.black,
   ),
@@ -23,6 +23,7 @@ final lightMode = ThemeData(
 final darkMode = ThemeData(
   textTheme: GoogleFonts.actorTextTheme(),
   colorScheme: const ColorScheme(
+    tertiary: Color.fromARGB(255, 118, 207, 235),
     brightness: Brightness.light,
     primary:  Color.fromARGB(255, 25, 44, 70),
     onPrimary:  Color.fromRGBO(12, 43, 58, 1),
@@ -32,7 +33,7 @@ final darkMode = ThemeData(
     onSurface:  Color.fromARGB(255, 179, 207, 243),
     onPrimaryContainer:  Color.fromARGB(255, 12, 12, 49),
     secondaryContainer:  Color.fromARGB(255, 11, 255, 231),
-    onSecondaryContainer:  Color.fromARGB(255, 138, 213, 243),
+    onSecondaryContainer:  Color.fromARGB(255, 0, 0, 0),
     error:  Color.fromARGB(255, 243, 130, 111),
     onError: Colors.black,
   ),

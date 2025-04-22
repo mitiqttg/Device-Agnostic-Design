@@ -9,8 +9,8 @@ class Footer extends StatelessWidget {
     return Center(
       child: Container(
             // color: Theme.of(context).colorScheme.primary,
-            decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 12, 12, 49),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.onPrimaryContainer,
             ),
             // color: Theme.of(context).scaffoldBackgroundColor,
             padding: const EdgeInsets.all(10),

@@ -44,9 +44,9 @@ class _PetCard extends State<PetCard> {
   final CarouselSliderController _infoController = CarouselSliderController();
 
   List<Widget> _buildInfoSlides(double cardWidth) {
-    final textColor = Theme.of(context).colorScheme.onError; 
+    final textColor = Theme.of(context).colorScheme.tertiary;
     final fullText = '${widget.specie}\n${widget.shortDes}${selected ? '\n${widget.longDes}' : ''}';
-    const int maxLength = 300;
+    const int maxLength = 500;
     List<String> parts = [];
     String remaining = fullText;
 
@@ -89,7 +89,7 @@ class _PetCard extends State<PetCard> {
                 ? screenWidth * 0.5
                 : 400;
 
-    final double cardHeight = selected ? 600 : 300;
+    final double cardHeight = selected ? 500 : 300;
 
     return GestureDetector(
       onTap: () => setState(() => selected = !selected),
@@ -133,10 +133,10 @@ class _PetCard extends State<PetCard> {
                   ),
                   if (widget.birth != null)
                     Text(
-                      widget.birth!,
+                      'Birthday: ${widget.birth!}',
                       style: TextStyle(
                         fontSize: 14,
-                        color: Colors.black.withOpacity(0.7),
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                 ],
@@ -157,7 +157,7 @@ class _PetCard extends State<PetCard> {
   }
 
   Widget _buildInfoSection(double cardWidth) {
-    final textColor = Theme.of(context).colorScheme.onSurface;
+    final textColor = Theme.of(context).colorScheme.tertiary;
     final infoSlides = _buildInfoSlides(cardWidth);
 
     if (infoSlides.length <= 1) {
@@ -165,7 +165,7 @@ class _PetCard extends State<PetCard> {
         width: cardWidth,
         padding: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.onError, 
+          color: Theme.of(context).colorScheme.onSecondaryContainer, 
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: SingleChildScrollView(
@@ -174,7 +174,7 @@ class _PetCard extends State<PetCard> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                widget.specie,
+                'Breed: ${widget.specie}',
                 style: TextStyle(fontSize: 14, color: textColor.withOpacity(0.7)),
               ),
               const SizedBox(height: 4),
@@ -273,7 +273,7 @@ class _PetCard extends State<PetCard> {
           text,
           style: TextStyle(
             fontSize: 14,
-            color: Theme.of(context).colorScheme.surface, 
+            color: Theme.of(context).colorScheme.tertiary, 
           ),
         ),
       ),

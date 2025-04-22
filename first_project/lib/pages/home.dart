@@ -10,8 +10,6 @@ class Breakpoints {
   static const sm = 640;
   static const md = 768;
   static const lg = 1024;
-  static const xl = 1280;
-  static const xl2 = 1536;
 }
 
 class HomePage extends StatefulWidget {
@@ -29,10 +27,9 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  //------------------------------------------------------------Search box
+  //--------------------------------Search box------------
   Container _searchField() {
     double appBarHeight = AppBar().preferredSize.height;
-    // double appBarWidth = AppBar().preferredSize.width;
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -76,7 +73,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  //------------------------------------------------------------App bar
   @override
   Widget build(BuildContext context) {
 
@@ -152,7 +148,7 @@ class _HomePageState extends State<HomePage> {
                     style: TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.normal,
-                          color: Theme.of(context).colorScheme.onSecondaryContainer, // Adjust text color
+                          color: Theme.of(context).colorScheme.tertiary, // Adjust text color
                         ),
                   ),
                   const SizedBox(height: 24.0),

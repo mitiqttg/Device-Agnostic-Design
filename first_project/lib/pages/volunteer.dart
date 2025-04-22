@@ -10,8 +10,6 @@ class Breakpoints {
   static const sm = 640;
   static const md = 768;
   static const lg = 1024;
-  static const xl = 1280;
-  static const xl2 = 1536;
 }
 
 class VolunteeringPage extends StatefulWidget {
@@ -92,7 +90,7 @@ class _VolunteeringPageState extends State<VolunteeringPage> {
                 children: [
                   Row(
                     children: [
-                      Text('Main content goes here!', style: TextStyle(fontSize: 24),),
+                      Text('In developing', style: TextStyle(fontSize: 24),),
                     ],
                   )
                 ]
